@@ -33,16 +33,39 @@ html,body{background:var(--bg);color:var(--text);font-family:-apple-system,Blink
 .row-value input,.row-value select{background:none;border:none;color:var(--text);font-size:15px;font-family:inherit;text-align:right;width:100%;outline:none}
 .row-value input::placeholder{color:#444}
 .row-value select option{background:#1a1a1a}
+
+/* NIGHT CARDS */
 .night-item{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;overflow:hidden}
-.night-header{display:flex;align-items:center;padding:15px 16px;gap:12px}
-.night-num{width:30px;height:30px;border-radius:50%;background:var(--gold);color:#000;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.night-date{flex:1}
-.night-date input{background:none;border:none;color:var(--text);font-size:15px;font-family:inherit;outline:none;width:100%}
-.night-amt{font-size:16px;font-weight:700;color:var(--gold);min-width:60px;text-align:right}
-.night-delete{width:34px;height:34px;border-radius:8px;border:1px solid #3a1a1a;background:none;color:#f87171;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.night-note{padding:0 16px 14px}
+.night-header{display:flex;align-items:center;padding:14px 16px;gap:10px}
+.night-num{width:28px;height:28px;border-radius:50%;background:var(--gold);color:#000;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.night-dates{flex:1;display:flex;flex-direction:column;gap:4px}
+.date-row{display:flex;align-items:center;gap:6px}
+.date-label{font-size:11px;color:var(--muted);min-width:36px}
+.date-row input[type=date]{background:none;border:none;color:var(--text);font-size:14px;font-family:inherit;outline:none;flex:1}
+.night-amt{font-size:15px;font-weight:700;color:var(--gold);min-width:55px;text-align:right}
+.night-delete{width:32px;height:32px;border-radius:8px;border:1px solid #3a1a1a;background:none;color:#f87171;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+/* MIDNIGHT TOGGLE */
+.midnight-row{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-top:1px solid var(--border);background:#111}
+.midnight-label{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.midnight-label span{font-size:16px}
+.toggle{position:relative;width:44px;height:26px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0}
+.toggle-slider{position:absolute;inset:0;background:#2a2a2a;border-radius:26px;cursor:pointer;transition:.3s}
+.toggle-slider:before{content:'';position:absolute;width:20px;height:20px;left:3px;top:3px;background:#666;border-radius:50%;transition:.3s}
+.toggle input:checked+.toggle-slider{background:#1a1200}
+.toggle input:checked+.toggle-slider:before{background:var(--gold);transform:translateX(18px)}
+
+/* END DATE ROW — shown when midnight toggle on */
+.end-date-row{display:none;align-items:center;gap:6px;padding:10px 16px;border-top:1px solid var(--border)}
+.end-date-row.visible{display:flex}
+.end-date-row input[type=date]{background:var(--input-bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:14px;font-family:inherit;padding:7px 10px;flex:1;outline:none}
+.end-date-row input:focus{border-color:var(--gold-dim)}
+
+.night-note{padding:10px 16px;border-top:1px solid var(--border)}
 .night-note input{background:var(--input-bg);border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:13px;font-family:inherit;padding:9px 12px;width:100%;outline:none}
 .night-note input:focus{border-color:var(--gold-dim);color:var(--text)}
+
 .add-night-btn{width:100%;padding:18px;background:none;border:1.5px dashed var(--border);border-radius:var(--radius);color:var(--muted);font-size:16px;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;margin-bottom:24px}
 .add-night-btn:active{border-color:var(--gold);color:var(--gold)}
 .totals-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:20px}
@@ -108,7 +131,7 @@ html,body{background:var(--bg);color:var(--text);font-family:-apple-system,Blink
     <div class="card">
       <div class="card-row"><div class="row-label">Invoice #</div><div class="row-value"><input id="f-num" placeholder="E11-001"/></div></div>
       <div class="card-row"><div class="row-label">Invoice Date</div><div class="row-value"><input type="date" id="f-date"/></div></div>
-      <div class="card-row"><div class="row-label">Due Date</div><div class="row-value"><input type="date" id="f-due"/></div></div>
+      <div class="card-row"><div class="row-label">Due Date (Net 14)</div><div class="row-value"><input type="date" id="f-due"/></div></div>
       <div class="card-row"><div class="row-label">Role</div><div class="row-value">
         <select id="f-role">
           <option>Graphics Operator / VJ</option>
@@ -169,7 +192,7 @@ html,body{background:var(--bg);color:var(--text);font-family:-apple-system,Blink
       <div class="about-row"><span class="about-label">Address</span><span class="about-val">1112 N Miami Ave FL 33136</span></div>
       <div class="about-row"><span class="about-label">AP Email</span><span class="about-val">Ap@11usa.com</span></div>
       <div class="about-row"><span class="about-label">Accounting</span><span class="about-val">Accounting@11usa.com</span></div>
-      <div class="about-row"><span class="about-label">Terms</span><span class="about-val">Net 30 · 1.5%/mo late fee</span></div>
+      <div class="about-row"><span class="about-label">Terms</span><span class="about-val">Net 14 · 1.5%/mo late fee</span></div>
     </div>
   </div>
 </div>
@@ -212,13 +235,15 @@ function saveSettings(){
   showToast('Saved ✓');
 }
 function g(id){return document.getElementById(id).value;}
+
 function initForm(){
   const t=new Date();
   document.getElementById('f-date').value=t.toISOString().split('T')[0];
-  const d=new Date(t);d.setDate(d.getDate()+30);
+  const d=new Date(t);d.setDate(d.getDate()+14); // NET 14
   document.getElementById('f-due').value=d.toISOString().split('T')[0];
   document.getElementById('f-num').value='E11-'+String(invNum).padStart(3,'0');
 }
+
 function addNight(){
   nightCount++;
   const id='n'+Date.now();
@@ -228,14 +253,48 @@ function addNight(){
   el.innerHTML=`
     <div class="night-header">
       <div class="night-num">${nightCount}</div>
-      <div class="night-date"><input type="date" class="nd" onchange="calcTotals()"/></div>
+      <div class="night-dates">
+        <div class="date-row">
+          <span class="date-label">Start</span>
+          <input type="date" class="nd-start" onchange="calcTotals()"/>
+        </div>
+      </div>
       <div class="night-amt" id="${id}a">$${rate.toFixed(0)}</div>
       <button class="night-delete" onclick="removeNight('${id}')">×</button>
+    </div>
+    <div class="midnight-row">
+      <span class="midnight-label"><span>🌙</span> Worked past midnight (spans 2 dates)</span>
+      <label class="toggle">
+        <input type="checkbox" class="midnight-toggle" onchange="toggleMidnight(this,'${id}')"/>
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+    <div class="end-date-row" id="${id}-end">
+      <span class="date-label" style="font-size:12px;color:var(--muted);min-width:36px">End</span>
+      <input type="date" class="nd-end" placeholder="End date (next day)"/>
     </div>
     <div class="night-note"><input class="nn" placeholder="Event note (optional)…"/></div>`;
   document.getElementById('nights-list').appendChild(el);
   calcTotals();
 }
+
+function toggleMidnight(cb, id){
+  const endRow=document.getElementById(id+'-end');
+  if(cb.checked){
+    endRow.classList.add('visible');
+    // Auto-suggest next day from start date
+    const startInput=document.getElementById(id).querySelector('.nd-start');
+    if(startInput.value){
+      const next=new Date(startInput.value+'T12:00:00');
+      next.setDate(next.getDate()+1);
+      document.getElementById(id).querySelector('.nd-end').value=next.toISOString().split('T')[0];
+    }
+  } else {
+    endRow.classList.remove('visible');
+    document.getElementById(id).querySelector('.nd-end').value='';
+  }
+}
+
 function removeNight(id){
   document.getElementById(id).remove();
   let n=1;document.querySelectorAll('.night-num').forEach(e=>e.textContent=n++);nightCount=n-1;
@@ -273,6 +332,17 @@ function fmtDate(str){
 }
 function fmtMoney(n){return'$'+n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}
 
+// Get display date string for a night — handles midnight span
+function nightDateStr(item){
+  const start=item.querySelector('.nd-start').value;
+  const isMidnight=item.querySelector('.midnight-toggle').checked;
+  const end=item.querySelector('.nd-end').value;
+  if(isMidnight && end){
+    return fmtDate(start)+' – '+fmtDate(end);
+  }
+  return start?fmtDate(start):'—';
+}
+
 function buildEmailContent(){
   const num=g('f-num')||'E11-001';
   const name=info.name||'[Your Name]';
@@ -283,12 +353,12 @@ function buildEmailContent(){
   const total=rate*items.length;
   const dateLines=[];
   items.forEach(item=>{
-    const d=item.querySelector('.nd').value;
+    const dateStr=nightDateStr(item);
     const note=item.querySelector('.nn').value;
-    dateLines.push('  • '+(d?fmtDate(d):'(date not set)')+(note?' — '+note:''));
+    dateLines.push('  • '+dateStr+(note?' — '+note:''));
   });
   const subject=`Invoice ${num} — ${name} — ${role} — E11even Miami`;
-  const body=`Hi,\n\nPlease find attached Invoice ${num} for services rendered at E11even Miami.\n\nServices: ${role}\nDates Worked:\n${dateLines.join('\n')}\n\nInvoice Total: ${fmtMoney(total)}\nPayment Due: ${dueDate?fmtDate(dueDate):'—'}\n\nPlease don't hesitate to reach out with any questions.\n\nThank you,\n${name}${info.phone?'\n'+info.phone:''}${info.email?'\n'+info.email:''}`;
+  const body=`Hi,\n\nPlease find attached Invoice ${num} for services rendered at E11even Miami.\n\nServices: ${role}\nDates Worked:\n${dateLines.join('\n')}\n\nInvoice Total: ${fmtMoney(total)}\nPayment Due: ${dueDate?fmtDate(dueDate):'—'} (Net 14)\n\nPlease don't hesitate to reach out with any questions.\n\nThank you,\n${name}${info.phone?'\n'+info.phone:''}${info.email?'\n'+info.email:''}`;
   return{subject,body};
 }
 function openPreview(){
@@ -305,7 +375,6 @@ function openGmail(){window.open(gmailURL,'_blank');closePreview();showToast('Gm
 function closePreview(){document.getElementById('modal').classList.remove('open');}
 function closePreviewOutside(e){if(e.target===document.getElementById('modal'))closePreview();}
 
-// ─── PDF — clean white layout matching reference screenshot ───────────────────
 function buildPDF(){
   const items=document.querySelectorAll('.night-item');
   if(!items.length){showToast('Add at least one night');return;}
@@ -313,129 +382,113 @@ function buildPDF(){
 
   const{jsPDF}=window.jspdf;
   const doc=new jsPDF({unit:'pt',format:'letter'});
-  const W=612, ml=40, mr=W-40, cw=W-ml*2;
-
+  const W=612,ml=40,mr=W-40,cw=W-ml*2;
   const rate=parseFloat(g('f-rate'))||0;
-  const num=g('f-num'), idate=g('f-date'), ddate=g('f-due'), role=g('f-role');
+  const num=g('f-num'),idate=g('f-date'),ddate=g('f-due'),role=g('f-role');
   const total=rate*items.length;
 
-  // ── HEADER BAND ──────────────────────────────────────────────
-  doc.setFillColor(18,18,18);
-  doc.rect(0,0,W,88,'F');
-
-  // Company name top-left
+  // HEADER
+  doc.setFillColor(18,18,18);doc.rect(0,0,W,88,'F');
   doc.setFont('helvetica','bold');doc.setFontSize(20);doc.setTextColor(255,255,255);
-  doc.text(info.name||'Your Company',ml,36);
-
-  // Tagline / role descriptor
-  doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(180,155,60);
-  const tagline=[info.addr,info.email,info.phone].filter(Boolean).join('  ·  ');
-  doc.text(tagline,ml,52);
-  doc.setTextColor(140,120,50);doc.setFontSize(8);
-  doc.text(info.ein?'EIN: '+info.ein:'',ml,64);
-
-  // "INVOICE" label top-right
+  doc.text(info.name||'',ml+6,34);
+  doc.setFont('helvetica','normal');doc.setFontSize(8.5);doc.setTextColor(170,140,50);
+  const sub=[info.addr,info.email,info.phone].filter(Boolean).join('  ·  ');
+  doc.text(sub,ml+6,50);
+  if(info.ein){doc.setFontSize(8);doc.setTextColor(130,105,35);doc.text('EIN: '+info.ein,ml+6,63);}
   doc.setFont('helvetica','bold');doc.setFontSize(26);doc.setTextColor(212,175,55);
-  doc.text('INVOICE',mr,40,{align:'right'});
-  doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(180,155,60);
-  doc.text(num,mr,56,{align:'right'});
+  doc.text('INVOICE',mr,38,{align:'right'});
+  doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(170,140,50);
+  doc.text(num,mr,54,{align:'right'});
 
-  // ── BILL TO + DETAILS ROW ─────────────────────────────────────
+  // BILL TO + DETAILS
   let y=106;
-  // Left: Bill To box
-  doc.setFillColor(248,248,248);
-  doc.roundedRect(ml,y,cw*0.48,80,4,4,'F');
+  doc.setFillColor(248,248,248);doc.roundedRect(ml,y,cw*0.48,82,4,4,'F');
   doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(100,80,10);
   doc.text('BILL TO',ml+12,y+16);
   doc.setFont('helvetica','bold');doc.setFontSize(11);doc.setTextColor(20,20,20);
   doc.text('GR OPCO LLC',ml+12,y+32);
   doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(70,70,70);
-  doc.text('E11even Miami',ml+12,y+45);
-  doc.text('1112 North Miami Avenue',ml+12,y+58);
-  doc.text('Miami, Florida 33136',ml+12,y+71);
+  doc.text('E11even Miami',ml+12,y+46);
+  doc.text('1112 North Miami Avenue',ml+12,y+59);
+  doc.text('Miami, Florida 33136',ml+12,y+72);
 
-  // Right: Invoice details box
   const rx=ml+cw*0.52;
-  doc.setFillColor(248,248,248);
-  doc.roundedRect(rx,y,cw*0.48,80,4,4,'F');
+  doc.setFillColor(248,248,248);doc.roundedRect(rx,y,cw*0.48,82,4,4,'F');
   let dy2=y+16;
-  [['Invoice #',num],['Invoice Date',idate?fmtDate(idate):'—'],['Due Date',ddate?fmtDate(ddate):'—']].forEach(([k,val])=>{
-    doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(100,80,10);
-    doc.text(k,rx+12,dy2);
-    doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(20,20,20);
-    doc.text(val,rx+cw*0.48-10,dy2,{align:'right'});
-    dy2+=20;
+  [['Invoice #',num],['Invoice Date',idate?fmtDate(idate):'—'],['Due Date (Net 14)',ddate?fmtDate(ddate):'—']].forEach(([k,val])=>{
+    doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(100,80,10);doc.text(k,rx+12,dy2);
+    doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(20,20,20);doc.text(val,rx+cw*0.48-10,dy2,{align:'right'});
+    dy2+=22;
   });
 
-  // ── TABLE HEADER ─────────────────────────────────────────────
-  y+=92;
-  doc.setFillColor(18,18,18);
-  doc.rect(ml,y,cw,24,'F');
+  // TABLE HEADER
+  y+=96;
+  doc.setFillColor(18,18,18);doc.rect(ml,y,cw,24,'F');
   doc.setFont('helvetica','bold');doc.setFontSize(8.5);doc.setTextColor(212,175,55);
-  const c0=ml+10, c1=ml+200, c2=ml+290, c3=ml+370, c4=mr-10;
-  doc.text('Description',c0,y+16);
-  doc.text('Date',c1,y+16);
-  doc.text('Type',c2,y+16);
-  doc.text('Rate',c3,y+16,{align:'right'});
-  doc.text('Amount',c4,y+16,{align:'right'});
+  const c0=ml+10,c1=ml+175,c2=ml+310,c3=mr-10;
+  doc.text('Description / Event',c0,y+16);
+  doc.text('Date(s) Worked',c1,y+16);
+  doc.text('Rate',c2,y+16,{align:'right'});
+  doc.text('Amount',c3,y+16,{align:'right'});
   y+=24;
 
-  // ── TABLE ROWS ───────────────────────────────────────────────
-  let n=1;
+  // TABLE ROWS
   items.forEach((item,i)=>{
-    const d=item.querySelector('.nd').value||'';
+    const dateStr=nightDateStr(item);
     const note=item.querySelector('.nn').value||role;
+    const isMidnight=item.querySelector('.midnight-toggle').checked;
     if(i%2===0){doc.setFillColor(252,250,244);}else{doc.setFillColor(255,255,255);}
-    doc.rect(ml,y,cw,22,'F');
+    const rowH=isMidnight?26:22;
+    doc.rect(ml,y,cw,rowH,'F');
     doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(30,30,30);
-    doc.text(note.substring(0,30),c0,y+15);
-    doc.text(d?fmtDate(d):'—',c1,y+15);
-    doc.text('Flat Rate',c2,y+15);
-    doc.text(fmtMoney(rate),c3,y+15,{align:'right'});
-    doc.text(fmtMoney(rate),c4,y+15,{align:'right'});
-    // subtle row border
-    doc.setDrawColor(230,225,210);doc.setLineWidth(0.3);
-    doc.line(ml,y+22,mr,y+22);
-    y+=22;n++;
+    doc.text(note.substring(0,28),c0,y+14);
+    // Date — if midnight span show both dates stacked or inline
+    if(isMidnight){
+      doc.setFont('helvetica','normal');doc.setFontSize(8);doc.setTextColor(50,50,50);
+      doc.text(dateStr,c1,y+14);
+      doc.setFontSize(7.5);doc.setTextColor(140,110,20);
+      doc.text('(spans midnight)',c1,y+22);
+    } else {
+      doc.setFontSize(9);doc.text(dateStr,c1,y+14);
+    }
+    doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(30,30,30);
+    doc.text(fmtMoney(rate),c2,y+14,{align:'right'});
+    doc.text(fmtMoney(rate),c3,y+14,{align:'right'});
+    doc.setDrawColor(225,218,200);doc.setLineWidth(0.3);doc.line(ml,y+rowH,mr,y+rowH);
+    y+=rowH;
   });
 
-  // ── TOTALS BLOCK ─────────────────────────────────────────────
-  y+=10;
-  // Subtotal row
+  // TOTALS
+  y+=12;
   doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(80,80,80);
-  doc.text('SUBTOTAL:',mr-160,y);doc.text(fmtMoney(total),c4,y,{align:'right'});y+=16;
+  doc.text('SUBTOTAL:',mr-160,y);doc.text(fmtMoney(total),c3,y,{align:'right'});y+=14;
+  doc.setFontSize(8);doc.setTextColor(140,140,140);
   doc.text(`${items.length} night${items.length!==1?'s':''} × ${fmtMoney(rate)} flat rate`,ml,y);
-  doc.setFont('helvetica','normal');doc.setFontSize(8);doc.setTextColor(140,140,140);
-  doc.text('No applicable tax (FL service exemption)',mr-160,y);y+=24;
+  doc.text('No applicable tax (FL service exemption)',mr-160,y);y+=22;
 
-  // BALANCE DUE bar — matches reference screenshot exactly
-  doc.setFillColor(18,18,18);
-  doc.rect(ml,y,cw,34,'F');
+  // BALANCE DUE BAR
+  doc.setFillColor(18,18,18);doc.rect(ml,y,cw,36,'F');
   doc.setFont('helvetica','bold');doc.setFontSize(12);doc.setTextColor(255,255,255);
-  doc.text('BALANCE DUE',ml+14,y+22);
+  doc.text('BALANCE DUE',ml+14,y+23);
   doc.setFont('helvetica','bold');doc.setFontSize(14);doc.setTextColor(212,175,55);
-  doc.text(fmtMoney(total),c4,y+22,{align:'right'});
-  y+=46;
+  doc.text(fmtMoney(total),c3,y+23,{align:'right'});
+  y+=48;
 
-  // ── PAYMENT TERMS ────────────────────────────────────────────
-  doc.setFillColor(250,248,240);
-  doc.roundedRect(ml,y,cw,56,4,4,'F');
-  doc.setDrawColor(212,175,55);doc.setLineWidth(0.5);
-  doc.roundedRect(ml,y,cw,56,4,4,'S');
+  // PAYMENT TERMS
+  doc.setFillColor(250,248,240);doc.roundedRect(ml,y,cw,58,4,4,'F');
+  doc.setDrawColor(212,175,55);doc.setLineWidth(0.5);doc.roundedRect(ml,y,cw,58,4,4,'S');
   doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(110,85,10);
   doc.text('PAYMENT TERMS',ml+12,y+14);
   doc.setFont('helvetica','normal');doc.setFontSize(8.5);doc.setTextColor(50,50,50);
-  doc.text('Net 30 days from invoice date. Payments after due date subject to 1.5% monthly late fee.',ml+12,y+26);
+  doc.text('Net 14 days from invoice date. Payments after due date subject to 1.5% monthly late fee.',ml+12,y+27);
   doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(110,85,10);
-  doc.text('SUBMIT TO',ml+12,y+40);
+  doc.text('SUBMIT TO',ml+12,y+42);
   doc.setFont('helvetica','normal');doc.setTextColor(30,30,30);
-  doc.text('Ap@11usa.com  ·  Accounting@11usa.com',ml+12,y+52);
-  y+=66;
+  doc.text('Ap@11usa.com  ·  Accounting@11usa.com',ml+12,y+54);
 
-  // ── FOOTER ───────────────────────────────────────────────────
+  // FOOTER
   const ph=doc.internal.pageSize.getHeight();
-  doc.setFillColor(18,18,18);
-  doc.rect(0,ph-30,W,30,'F');
+  doc.setFillColor(18,18,18);doc.rect(0,ph-30,W,30,'F');
   doc.setTextColor(140,115,35);doc.setFont('helvetica','normal');doc.setFontSize(7.5);
   doc.text(`${info.name}${info.ein?' · EIN: '+info.ein:''} · Legally binding commercial document.`,W/2,ph-11,{align:'center'});
 
