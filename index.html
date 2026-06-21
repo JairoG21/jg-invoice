@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<title>E11even · Invoice</title>
+<style>
+:root{
+  --gold:#d4af37;--gold-dim:#a8882a;--bg:#0d0d0d;--card:#1a1a1a;
+  --border:#2a2a2a;--text:#f0f0f0;--muted:#888;--input-bg:#111;--radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;font-size:16px}
+.app{max-width:480px;margin:0 auto;padding:0 0 100px}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:18px 20px 14px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg);z-index:10}
+.topnav-logo{display:flex;align-items:center;gap:10px}
+.logo-box{width:38px;height:38px;border:1.5px solid var(--gold);border-radius:9px;display:flex;align-items:center;justify-content:center}
+.logo-box span{font-size:11px;font-weight:800;color:var(--gold);letter-spacing:-0.5px}
+.logo-text{font-size:15px;font-weight:600}
+.logo-sub{font-size:11px;color:var(--muted)}
+.nav-tabs{display:flex;gap:4px;background:var(--card);border-radius:10px;padding:4px;border:1px solid var(--border)}
+.nav-tab{padding:6px 14px;border-radius:7px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border:none;background:none;font-family:inherit;transition:all .15s}
+.nav-tab.active{background:var(--gold);color:#000}
+.screen{display:none;padding:20px}
+.screen.active{display:block}
+.section-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;margin-top:24px}
+.section-label:first-child{margin-top:0}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:12px}
+.card-row{display:flex;align-items:center;padding:15px 16px;border-bottom:1px solid var(--border);gap:12px}
+.card-row:last-child{border-bottom:none}
+.row-label{font-size:14px;color:var(--muted);min-width:130px;flex-shrink:0}
+.row-value{flex:1;text-align:right}
+.row-value input,.row-value select{background:none;border:none;color:var(--text);font-size:15px;font-family:inherit;text-align:right;width:100%;outline:none}
+.row-value input::placeholder{color:#444}
+.row-value select option{background:#1a1a1a}
+.night-item{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;overflow:hidden}
+.night-header{display:flex;align-items:center;padding:15px 16px;gap:12px}
+.night-num{width:30px;height:30px;border-radius:50%;background:var(--gold);color:#000;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.night-date{flex:1}
+.night-date input{background:none;border:none;color:var(--text);font-size:15px;font-family:inherit;outline:none;width:100%}
+.night-amt{font-size:16px;font-weight:700;color:var(--gold);min-width:60px;text-align:right}
+.night-delete{width:34px;height:34px;border-radius:8px;border:1px solid #3a1a1a;background:none;color:#f87171;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.night-note{padding:0 16px 14px}
+.night-note input{background:var(--input-bg);border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:13px;font-family:inherit;padding:9px 12px;width:100%;outline:none}
+.night-note input:focus{border-color:var(--gold-dim);color:var(--text)}
+.add-night-btn{width:100%;padding:18px;background:none;border:1.5px dashed var(--border);border-radius:var(--radius);color:var(--muted);font-size:16px;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;margin-bottom:24px}
+.add-night-btn:active{border-color:var(--gold);color:var(--gold)}
+.totals-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:20px}
+.total-row{display:flex;justify-content:space-between;align-items:center;padding:13px 16px;border-bottom:1px solid var(--border)}
+.total-label{font-size:14px;color:var(--muted)}
+.total-val{font-size:15px;font-weight:500}
+.total-grand{background:#0f0c00;display:flex;justify-content:space-between;align-items:center;padding:20px 16px}
+.total-grand-label{font-size:14px;color:var(--gold-dim);font-weight:600;letter-spacing:.04em}
+.total-grand-val{font-size:28px;font-weight:700;color:var(--gold)}
+.send-box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:12px}
+.send-box-header{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.send-box-title{font-size:14px;font-weight:600}
+.send-box-sub{font-size:12px;color:var(--muted);margin-top:2px}
+.send-steps{padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.step{display:flex;align-items:flex-start;gap:12px}
+.step-num{width:24px;height:24px;border-radius:50%;background:var(--gold);color:#000;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.step-text{font-size:13px;color:var(--muted);line-height:1.5}
+.step-text strong{color:var(--text)}
+.btn-primary{width:100%;padding:18px;background:var(--gold);color:#000;border:none;border-radius:var(--radius);font-size:17px;font-weight:700;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity .15s}
+.btn-primary:active{opacity:.8}
+.btn-gmail{width:100%;padding:18px;background:#1a1a1a;color:#fff;border:1px solid #3a3a3a;border-radius:var(--radius);font-size:16px;font-weight:600;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:all .2s;margin-top:10px}
+.btn-gmail:active{border-color:var(--gold);color:var(--gold)}
+.btn-secondary{width:100%;padding:15px;background:none;color:var(--muted);border:1px solid var(--border);border-radius:var(--radius);font-size:15px;font-family:inherit;cursor:pointer;margin-top:10px}
+.btn-secondary:active{border-color:var(--gold);color:var(--gold)}
+.about-row{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--border)}
+.about-row:last-child{border-bottom:none}
+.about-label{font-size:14px;color:var(--muted)}
+.about-val{font-size:14px;font-weight:500;text-align:right;max-width:60%}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:#1a1a1a;border:1px solid var(--gold);color:var(--gold);border-radius:30px;padding:13px 26px;font-size:14px;font-weight:600;z-index:100;transition:transform .3s ease;white-space:nowrap;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:50;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:#1a1a1a;border:1px solid var(--border);border-radius:20px 20px 0 0;width:100%;max-width:480px;padding:24px 20px 40px;transform:translateY(100%);transition:transform .3s ease}
+.modal-overlay.open .modal{transform:translateY(0)}
+.modal-title{font-size:17px;font-weight:700;margin-bottom:6px}
+.modal-sub{font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.5}
+.preview-field{background:#111;border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:10px}
+.preview-label{font-size:11px;color:var(--gold-dim);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.preview-val{font-size:13px;color:var(--text);line-height:1.5;word-break:break-word}
+.modal-actions{display:flex;flex-direction:column;gap:10px;margin-top:20px}
+.btn-modal-go{width:100%;padding:16px;background:var(--gold);color:#000;border:none;border-radius:12px;font-size:16px;font-weight:700;font-family:inherit;cursor:pointer}
+.btn-modal-cancel{width:100%;padding:14px;background:none;color:var(--muted);border:1px solid var(--border);border-radius:12px;font-size:15px;font-family:inherit;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="topnav">
+    <div class="topnav-logo">
+      <div class="logo-box"><span>E11</span></div>
+      <div>
+        <div class="logo-text">E11even</div>
+        <div class="logo-sub">Invoice</div>
+      </div>
+    </div>
+    <div class="nav-tabs">
+      <button class="nav-tab active" onclick="showScreen('invoice')">Invoice</button>
+      <button class="nav-tab" onclick="showScreen('settings')">Me</button>
+    </div>
+  </div>
+
+  <div class="screen active" id="screen-invoice">
+    <div class="section-label">Invoice Info</div>
+    <div class="card">
+      <div class="card-row"><div class="row-label">Invoice #</div><div class="row-value"><input id="f-num" placeholder="E11-001"/></div></div>
+      <div class="card-row"><div class="row-label">Invoice Date</div><div class="row-value"><input type="date" id="f-date"/></div></div>
+      <div class="card-row"><div class="row-label">Due Date</div><div class="row-value"><input type="date" id="f-due"/></div></div>
+      <div class="card-row"><div class="row-label">Role</div><div class="row-value">
+        <select id="f-role">
+          <option>Graphics Operator / VJ</option>
+          <option>VJ Performance</option>
+          <option>Media Server Operator</option>
+          <option>LED Wall Technician</option>
+          <option>Creative Director</option>
+          <option>AV Technician</option>
+        </select>
+      </div></div>
+      <div class="card-row"><div class="row-label">Rate per Night</div><div class="row-value"><input type="number" id="f-rate" placeholder="$0" inputmode="decimal" oninput="rateChanged()"/></div></div>
+    </div>
+
+    <div class="section-label">Nights Worked</div>
+    <div id="nights-list"></div>
+    <button class="add-night-btn" onclick="addNight()">＋ Add Night</button>
+
+    <div class="section-label">Total</div>
+    <div class="totals-card">
+      <div class="total-row"><span class="total-label">Nights</span><span class="total-val" id="t-nights">0</span></div>
+      <div class="total-row"><span class="total-label">Rate / Night</span><span class="total-val" id="t-rate">$0</span></div>
+      <div class="total-grand"><span class="total-grand-label">TOTAL DUE</span><span class="total-grand-val" id="t-total">$0.00</span></div>
+    </div>
+
+    <div class="section-label">Send Invoice</div>
+    <div class="send-box">
+      <div class="send-box-header">
+        <div style="font-size:22px">📋</div>
+        <div><div class="send-box-title">Preview &amp; Open in Gmail</div><div class="send-box-sub">Review email · download PDF · attach · send</div></div>
+      </div>
+      <div class="send-steps">
+        <div class="step"><div class="step-num">1</div><div class="step-text">Tap <strong>Export PDF</strong> — saves to your Files app</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Tap <strong>Preview &amp; Open Gmail</strong> — review the draft</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">In Gmail tap the <strong>paperclip</strong> → attach PDF from Files</div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Send</strong> — both billing contacts already filled in</div></div>
+      </div>
+    </div>
+
+    <button class="btn-primary" onclick="buildPDF()">⬇ &nbsp;Export PDF</button>
+    <button class="btn-gmail" onclick="openPreview()">✉️ &nbsp;Preview &amp; Open Gmail Draft</button>
+    <button class="btn-secondary" onclick="newInvoice()">↺ &nbsp;Start New Invoice</button>
+  </div>
+
+  <div class="screen" id="screen-settings">
+    <div class="section-label">Your Info</div>
+    <div class="card">
+      <div class="card-row"><div class="row-label">Name / S-Corp</div><div class="row-value"><input id="s-name" placeholder="Your Name or Co."/></div></div>
+      <div class="card-row"><div class="row-label">EIN</div><div class="row-value"><input id="s-ein" placeholder="XX-XXXXXXX" inputmode="numeric"/></div></div>
+      <div class="card-row"><div class="row-label">Address</div><div class="row-value"><input id="s-addr" placeholder="City, FL ZIP"/></div></div>
+      <div class="card-row"><div class="row-label">Email</div><div class="row-value"><input type="email" id="s-email" placeholder="you@domain.com" inputmode="email"/></div></div>
+      <div class="card-row"><div class="row-label">Phone</div><div class="row-value"><input type="tel" id="s-phone" placeholder="(305) 000-0000" inputmode="tel"/></div></div>
+    </div>
+    <button class="btn-primary" onclick="saveSettings()">Save My Info</button>
+
+    <div class="section-label" style="margin-top:32px">E11even Miami</div>
+    <div class="card">
+      <div class="about-row"><span class="about-label">Client</span><span class="about-val">GR OPCO LLC</span></div>
+      <div class="about-row"><span class="about-label">Address</span><span class="about-val">1112 N Miami Ave FL 33136</span></div>
+      <div class="about-row"><span class="about-label">AP Email</span><span class="about-val">Ap@11usa.com</span></div>
+      <div class="about-row"><span class="about-label">Accounting</span><span class="about-val">Accounting@11usa.com</span></div>
+      <div class="about-row"><span class="about-label">Terms</span><span class="about-val">Net 30 · 1.5%/mo late fee</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal" onclick="closePreviewOutside(event)">
+  <div class="modal">
+    <div class="modal-title">📧 Email Draft Preview</div>
+    <div class="modal-sub">Review everything below before opening Gmail. You'll still attach the PDF manually.</div>
+    <div class="preview-field"><div class="preview-label">To</div><div class="preview-val">Ap@11usa.com, Accounting@11usa.com</div></div>
+    <div class="preview-field"><div class="preview-label">Subject</div><div class="preview-val" id="prev-subject">—</div></div>
+    <div class="preview-field"><div class="preview-label">Body</div><div class="preview-val" id="prev-body" style="white-space:pre-line">—</div></div>
+    <div class="modal-actions">
+      <button class="btn-modal-go" onclick="openGmail()">✉️ &nbsp;Open Gmail Draft</button>
+      <button class="btn-modal-cancel" onclick="closePreview()">Cancel — go back and edit</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+let nightCount=0;
+let invNum=parseInt(localStorage.getItem('e11_num')||'1');
+let info=JSON.parse(localStorage.getItem('e11_info')||'{}');
+let gmailURL='';
+
+function showScreen(s){
+  document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(x=>x.classList.remove('active'));
+  document.getElementById('screen-'+s).classList.add('active');
+  document.querySelectorAll('.nav-tab')[s==='invoice'?0:1].classList.add('active');
+}
+function loadInfo(){
+  ['name','ein','addr','email','phone'].forEach(k=>{if(info[k])document.getElementById('s-'+k).value=info[k];});
+}
+function saveSettings(){
+  info={name:g('s-name'),ein:g('s-ein'),addr:g('s-addr'),email:g('s-email'),phone:g('s-phone')};
+  localStorage.setItem('e11_info',JSON.stringify(info));
+  showToast('Saved ✓');
+}
+function g(id){return document.getElementById(id).value;}
+function initForm(){
+  const t=new Date();
+  document.getElementById('f-date').value=t.toISOString().split('T')[0];
+  const d=new Date(t);d.setDate(d.getDate()+30);
+  document.getElementById('f-due').value=d.toISOString().split('T')[0];
+  document.getElementById('f-num').value='E11-'+String(invNum).padStart(3,'0');
+}
+function addNight(){
+  nightCount++;
+  const id='n'+Date.now();
+  const rate=parseFloat(g('f-rate'))||0;
+  const el=document.createElement('div');
+  el.className='night-item';el.id=id;
+  el.innerHTML=`
+    <div class="night-header">
+      <div class="night-num">${nightCount}</div>
+      <div class="night-date"><input type="date" class="nd" onchange="calcTotals()"/></div>
+      <div class="night-amt" id="${id}a">$${rate.toFixed(0)}</div>
+      <button class="night-delete" onclick="removeNight('${id}')">×</button>
+    </div>
+    <div class="night-note"><input class="nn" placeholder="Event note (optional)…"/></div>`;
+  document.getElementById('nights-list').appendChild(el);
+  calcTotals();
+}
+function removeNight(id){
+  document.getElementById(id).remove();
+  let n=1;document.querySelectorAll('.night-num').forEach(e=>e.textContent=n++);nightCount=n-1;
+  calcTotals();
+}
+function rateChanged(){
+  const rate=parseFloat(g('f-rate'))||0;
+  document.querySelectorAll('.night-item').forEach(item=>{
+    item.querySelector('[id$="a"]').textContent='$'+rate.toFixed(0);
+  });
+  calcTotals();
+}
+function calcTotals(){
+  const rate=parseFloat(g('f-rate'))||0;
+  const nights=document.querySelectorAll('.night-item').length;
+  const total=rate*nights;
+  document.getElementById('t-nights').textContent=nights;
+  document.getElementById('t-rate').textContent='$'+rate.toLocaleString();
+  document.getElementById('t-total').textContent='$'+total.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+}
+function newInvoice(){
+  if(!confirm('Clear and start a new invoice?'))return;
+  document.getElementById('nights-list').innerHTML='';nightCount=0;
+  invNum++;localStorage.setItem('e11_num',String(invNum));
+  initForm();calcTotals();addNight();
+}
+function showToast(msg){
+  const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2400);
+}
+function fmtDate(str){
+  if(!str)return'—';
+  const[y,m,d]=str.split('-');
+  return['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][parseInt(m)-1]+' '+parseInt(d)+', '+y;
+}
+function fmtMoney(n){return'$'+n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}
+
+function buildEmailContent(){
+  const num=g('f-num')||'E11-001';
+  const name=info.name||'[Your Name]';
+  const role=g('f-role');
+  const rate=parseFloat(g('f-rate'))||0;
+  const dueDate=g('f-due')||'—';
+  const items=document.querySelectorAll('.night-item');
+  const total=rate*items.length;
+  const dateLines=[];
+  items.forEach(item=>{
+    const d=item.querySelector('.nd').value;
+    const note=item.querySelector('.nn').value;
+    dateLines.push('  • '+(d?fmtDate(d):'(date not set)')+(note?' — '+note:''));
+  });
+  const subject=`Invoice ${num} — ${name} — ${role} — E11even Miami`;
+  const body=`Hi,\n\nPlease find attached Invoice ${num} for services rendered at E11even Miami.\n\nServices: ${role}\nDates Worked:\n${dateLines.join('\n')}\n\nInvoice Total: ${fmtMoney(total)}\nPayment Due: ${dueDate?fmtDate(dueDate):'—'}\n\nPlease don't hesitate to reach out with any questions.\n\nThank you,\n${name}${info.phone?'\n'+info.phone:''}${info.email?'\n'+info.email:''}`;
+  return{subject,body};
+}
+function openPreview(){
+  const items=document.querySelectorAll('.night-item');
+  if(!items.length){showToast('Add at least one night first');return;}
+  if(!info.name){showToast('Add your info in the Me tab first');return;}
+  const{subject,body}=buildEmailContent();
+  document.getElementById('prev-subject').textContent=subject;
+  document.getElementById('prev-body').textContent=body;
+  gmailURL='https://mail.google.com/mail/?view=cm&fs=1&to='+encodeURIComponent('Ap@11usa.com,Accounting@11usa.com')+'&su='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+  document.getElementById('modal').classList.add('open');
+}
+function openGmail(){window.open(gmailURL,'_blank');closePreview();showToast('Gmail opened — attach your PDF!');}
+function closePreview(){document.getElementById('modal').classList.remove('open');}
+function closePreviewOutside(e){if(e.target===document.getElementById('modal'))closePreview();}
+
+// ─── PDF — clean white layout matching reference screenshot ───────────────────
+function buildPDF(){
+  const items=document.querySelectorAll('.night-item');
+  if(!items.length){showToast('Add at least one night');return;}
+  if(!info.name){showToast('Add your info in the Me tab first');return;}
+
+  const{jsPDF}=window.jspdf;
+  const doc=new jsPDF({unit:'pt',format:'letter'});
+  const W=612, ml=40, mr=W-40, cw=W-ml*2;
+
+  const rate=parseFloat(g('f-rate'))||0;
+  const num=g('f-num'), idate=g('f-date'), ddate=g('f-due'), role=g('f-role');
+  const total=rate*items.length;
+
+  // ── HEADER BAND ──────────────────────────────────────────────
+  doc.setFillColor(18,18,18);
+  doc.rect(0,0,W,88,'F');
+
+  // Company name top-left
+  doc.setFont('helvetica','bold');doc.setFontSize(20);doc.setTextColor(255,255,255);
+  doc.text(info.name||'Your Company',ml,36);
+
+  // Tagline / role descriptor
+  doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(180,155,60);
+  const tagline=[info.addr,info.email,info.phone].filter(Boolean).join('  ·  ');
+  doc.text(tagline,ml,52);
+  doc.setTextColor(140,120,50);doc.setFontSize(8);
+  doc.text(info.ein?'EIN: '+info.ein:'',ml,64);
+
+  // "INVOICE" label top-right
+  doc.setFont('helvetica','bold');doc.setFontSize(26);doc.setTextColor(212,175,55);
+  doc.text('INVOICE',mr,40,{align:'right'});
+  doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(180,155,60);
+  doc.text(num,mr,56,{align:'right'});
+
+  // ── BILL TO + DETAILS ROW ─────────────────────────────────────
+  let y=106;
+  // Left: Bill To box
+  doc.setFillColor(248,248,248);
+  doc.roundedRect(ml,y,cw*0.48,80,4,4,'F');
+  doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(100,80,10);
+  doc.text('BILL TO',ml+12,y+16);
+  doc.setFont('helvetica','bold');doc.setFontSize(11);doc.setTextColor(20,20,20);
+  doc.text('GR OPCO LLC',ml+12,y+32);
+  doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(70,70,70);
+  doc.text('E11even Miami',ml+12,y+45);
+  doc.text('1112 North Miami Avenue',ml+12,y+58);
+  doc.text('Miami, Florida 33136',ml+12,y+71);
+
+  // Right: Invoice details box
+  const rx=ml+cw*0.52;
+  doc.setFillColor(248,248,248);
+  doc.roundedRect(rx,y,cw*0.48,80,4,4,'F');
+  let dy2=y+16;
+  [['Invoice #',num],['Invoice Date',idate?fmtDate(idate):'—'],['Due Date',ddate?fmtDate(ddate):'—']].forEach(([k,val])=>{
+    doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(100,80,10);
+    doc.text(k,rx+12,dy2);
+    doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(20,20,20);
+    doc.text(val,rx+cw*0.48-10,dy2,{align:'right'});
+    dy2+=20;
+  });
+
+  // ── TABLE HEADER ─────────────────────────────────────────────
+  y+=92;
+  doc.setFillColor(18,18,18);
+  doc.rect(ml,y,cw,24,'F');
+  doc.setFont('helvetica','bold');doc.setFontSize(8.5);doc.setTextColor(212,175,55);
+  const c0=ml+10, c1=ml+200, c2=ml+290, c3=ml+370, c4=mr-10;
+  doc.text('Description',c0,y+16);
+  doc.text('Date',c1,y+16);
+  doc.text('Type',c2,y+16);
+  doc.text('Rate',c3,y+16,{align:'right'});
+  doc.text('Amount',c4,y+16,{align:'right'});
+  y+=24;
+
+  // ── TABLE ROWS ───────────────────────────────────────────────
+  let n=1;
+  items.forEach((item,i)=>{
+    const d=item.querySelector('.nd').value||'';
+    const note=item.querySelector('.nn').value||role;
+    if(i%2===0){doc.setFillColor(252,250,244);}else{doc.setFillColor(255,255,255);}
+    doc.rect(ml,y,cw,22,'F');
+    doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(30,30,30);
+    doc.text(note.substring(0,30),c0,y+15);
+    doc.text(d?fmtDate(d):'—',c1,y+15);
+    doc.text('Flat Rate',c2,y+15);
+    doc.text(fmtMoney(rate),c3,y+15,{align:'right'});
+    doc.text(fmtMoney(rate),c4,y+15,{align:'right'});
+    // subtle row border
+    doc.setDrawColor(230,225,210);doc.setLineWidth(0.3);
+    doc.line(ml,y+22,mr,y+22);
+    y+=22;n++;
+  });
+
+  // ── TOTALS BLOCK ─────────────────────────────────────────────
+  y+=10;
+  // Subtotal row
+  doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(80,80,80);
+  doc.text('SUBTOTAL:',mr-160,y);doc.text(fmtMoney(total),c4,y,{align:'right'});y+=16;
+  doc.text(`${items.length} night${items.length!==1?'s':''} × ${fmtMoney(rate)} flat rate`,ml,y);
+  doc.setFont('helvetica','normal');doc.setFontSize(8);doc.setTextColor(140,140,140);
+  doc.text('No applicable tax (FL service exemption)',mr-160,y);y+=24;
+
+  // BALANCE DUE bar — matches reference screenshot exactly
+  doc.setFillColor(18,18,18);
+  doc.rect(ml,y,cw,34,'F');
+  doc.setFont('helvetica','bold');doc.setFontSize(12);doc.setTextColor(255,255,255);
+  doc.text('BALANCE DUE',ml+14,y+22);
+  doc.setFont('helvetica','bold');doc.setFontSize(14);doc.setTextColor(212,175,55);
+  doc.text(fmtMoney(total),c4,y+22,{align:'right'});
+  y+=46;
+
+  // ── PAYMENT TERMS ────────────────────────────────────────────
+  doc.setFillColor(250,248,240);
+  doc.roundedRect(ml,y,cw,56,4,4,'F');
+  doc.setDrawColor(212,175,55);doc.setLineWidth(0.5);
+  doc.roundedRect(ml,y,cw,56,4,4,'S');
+  doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(110,85,10);
+  doc.text('PAYMENT TERMS',ml+12,y+14);
+  doc.setFont('helvetica','normal');doc.setFontSize(8.5);doc.setTextColor(50,50,50);
+  doc.text('Net 30 days from invoice date. Payments after due date subject to 1.5% monthly late fee.',ml+12,y+26);
+  doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(110,85,10);
+  doc.text('SUBMIT TO',ml+12,y+40);
+  doc.setFont('helvetica','normal');doc.setTextColor(30,30,30);
+  doc.text('Ap@11usa.com  ·  Accounting@11usa.com',ml+12,y+52);
+  y+=66;
+
+  // ── FOOTER ───────────────────────────────────────────────────
+  const ph=doc.internal.pageSize.getHeight();
+  doc.setFillColor(18,18,18);
+  doc.rect(0,ph-30,W,30,'F');
+  doc.setTextColor(140,115,35);doc.setFont('helvetica','normal');doc.setFontSize(7.5);
+  doc.text(`${info.name}${info.ein?' · EIN: '+info.ein:''} · Legally binding commercial document.`,W/2,ph-11,{align:'center'});
+
+  doc.save(`${num}_E11even_Miami.pdf`);
+  invNum++;localStorage.setItem('e11_num',String(invNum));
+  showToast('PDF downloaded ✓');
+}
+
+loadInfo();initForm();addNight();
+</script>
+</body>
+</html>
