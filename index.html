@@ -3,114 +3,144 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-<title>E11even · Invoice</title>
+<title>Devoid Caliber · Invoice</title>
 <style>
 :root{
-  --gold:#d4af37;--gold-dim:#a8882a;--bg:#0d0d0d;--card:#1a1a1a;
-  --border:#2a2a2a;--text:#f0f0f0;--muted:#888;--input-bg:#111;--radius:14px;
+  --red:#c0392b;--red-dim:#922b21;--green:#27ae60;--green-dim:#1e8449;
+  --bg:#0a0a0a;--card:#141414;--card2:#1a1a1a;--border:#222;
+  --text:#f0f0f0;--muted:#777;--input-bg:#0f0f0f;--radius:14px;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;font-size:16px}
 .app{max-width:480px;margin:0 auto;padding:0 0 100px}
-.topnav{display:flex;align-items:center;justify-content:space-between;padding:18px 20px 14px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg);z-index:10}
-.topnav-logo{display:flex;align-items:center;gap:10px}
-.logo-box{width:38px;height:38px;border:1.5px solid var(--gold);border-radius:9px;display:flex;align-items:center;justify-content:center}
-.logo-box span{font-size:11px;font-weight:800;color:var(--gold);letter-spacing:-0.5px}
-.logo-text{font-size:15px;font-weight:600}
-.logo-sub{font-size:11px;color:var(--muted)}
+
+/* TOP NAV */
+.topnav{padding:20px 20px 16px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg);z-index:10}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.brand-icon{width:42px;height:42px;border-radius:10px;background:#111;border:1px solid var(--red);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;flex-shrink:0}
+.brand-icon-bar{width:22px;height:3px;border-radius:2px}
+.brand-icon-bar:nth-child(1){background:var(--red)}
+.brand-icon-bar:nth-child(2){background:#fff;width:16px}
+.brand-icon-bar:nth-child(3){background:var(--green)}
+.brand-name{font-size:17px;font-weight:700;color:#fff;letter-spacing:-.02em}
+.brand-sub{font-size:11px;color:var(--muted);margin-top:1px;letter-spacing:.04em;text-transform:uppercase}
 .nav-tabs{display:flex;gap:4px;background:var(--card);border-radius:10px;padding:4px;border:1px solid var(--border)}
-.nav-tab{padding:6px 14px;border-radius:7px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border:none;background:none;font-family:inherit;transition:all .15s}
-.nav-tab.active{background:var(--gold);color:#000}
+.nav-tab{flex:1;padding:8px;border-radius:7px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border:none;background:none;font-family:inherit;transition:all .15s;text-align:center}
+.nav-tab.active{background:var(--red);color:#fff}
+
+/* SCREENS */
 .screen{display:none;padding:20px}
 .screen.active{display:block}
 .section-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;margin-top:24px}
 .section-label:first-child{margin-top:0}
+
+/* CARDS */
 .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:12px}
 .card-row{display:flex;align-items:center;padding:15px 16px;border-bottom:1px solid var(--border);gap:12px}
 .card-row:last-child{border-bottom:none}
 .row-label{font-size:14px;color:var(--muted);min-width:130px;flex-shrink:0}
 .row-value{flex:1;text-align:right}
 .row-value input,.row-value select{background:none;border:none;color:var(--text);font-size:15px;font-family:inherit;text-align:right;width:100%;outline:none}
-.row-value input::placeholder{color:#444}
-.row-value select option{background:#1a1a1a}
+.row-value input::placeholder{color:#333}
+.row-value select option{background:#141414}
+
+/* NIGHT CARDS */
 .night-item{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;overflow:hidden}
 .night-header{display:flex;align-items:center;padding:14px 16px;gap:10px}
-.night-num{width:28px;height:28px;border-radius:50%;background:var(--gold);color:#000;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.night-dates{flex:1;display:flex;flex-direction:column;gap:4px}
+.night-num{width:28px;height:28px;border-radius:50%;background:var(--red);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.night-dates{flex:1}
 .date-row{display:flex;align-items:center;gap:6px}
 .date-label{font-size:11px;color:var(--muted);min-width:36px}
 .date-row input[type=date]{background:none;border:none;color:var(--text);font-size:14px;font-family:inherit;outline:none;flex:1}
-.night-amt{font-size:15px;font-weight:700;color:var(--gold);min-width:55px;text-align:right}
-.night-delete{width:32px;height:32px;border-radius:8px;border:1px solid #3a1a1a;background:none;color:#f87171;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.midnight-row{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-top:1px solid var(--border);background:#111}
+.night-amt{font-size:15px;font-weight:700;color:var(--green);min-width:55px;text-align:right}
+.night-delete{width:32px;height:32px;border-radius:8px;border:1px solid #2a1010;background:none;color:#e74c3c;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.midnight-row{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-top:1px solid var(--border);background:#0f0f0f}
 .midnight-label{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px}
 .toggle{position:relative;width:44px;height:26px;flex-shrink:0}
 .toggle input{opacity:0;width:0;height:0}
-.toggle-slider{position:absolute;inset:0;background:#2a2a2a;border-radius:26px;cursor:pointer;transition:.3s}
-.toggle-slider:before{content:'';position:absolute;width:20px;height:20px;left:3px;top:3px;background:#666;border-radius:50%;transition:.3s}
-.toggle input:checked+.toggle-slider{background:#1a1200}
-.toggle input:checked+.toggle-slider:before{background:var(--gold);transform:translateX(18px)}
+.toggle-slider{position:absolute;inset:0;background:#222;border-radius:26px;cursor:pointer;transition:.3s}
+.toggle-slider:before{content:'';position:absolute;width:20px;height:20px;left:3px;top:3px;background:#444;border-radius:50%;transition:.3s}
+.toggle input:checked+.toggle-slider{background:#0d2010}
+.toggle input:checked+.toggle-slider:before{background:var(--green);transform:translateX(18px)}
 .end-date-row{display:none;align-items:center;gap:6px;padding:10px 16px;border-top:1px solid var(--border)}
 .end-date-row.visible{display:flex}
 .end-date-row input[type=date]{background:var(--input-bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:14px;font-family:inherit;padding:7px 10px;flex:1;outline:none}
-.end-date-row input:focus{border-color:var(--gold-dim)}
+.end-date-row input:focus{border-color:var(--green-dim)}
 .night-note{padding:10px 16px;border-top:1px solid var(--border)}
 .night-note input{background:var(--input-bg);border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:13px;font-family:inherit;padding:9px 12px;width:100%;outline:none}
-.night-note input:focus{border-color:var(--gold-dim);color:var(--text)}
-.add-night-btn{width:100%;padding:18px;background:none;border:1.5px dashed var(--border);border-radius:var(--radius);color:var(--muted);font-size:16px;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;margin-bottom:24px}
-.add-night-btn:active{border-color:var(--gold);color:var(--gold)}
+.night-note input:focus{border-color:var(--red-dim);color:var(--text)}
+.add-night-btn{width:100%;padding:18px;background:none;border:1.5px dashed var(--border);border-radius:var(--radius);color:var(--muted);font-size:15px;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;margin-bottom:24px}
+.add-night-btn:active{border-color:var(--green);color:var(--green)}
+
+/* TOTALS */
 .totals-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:20px}
 .total-row{display:flex;justify-content:space-between;align-items:center;padding:13px 16px;border-bottom:1px solid var(--border)}
 .total-label{font-size:14px;color:var(--muted)}
 .total-val{font-size:15px;font-weight:500}
-.total-grand{background:#0f0c00;display:flex;justify-content:space-between;align-items:center;padding:20px 16px}
-.total-grand-label{font-size:14px;color:var(--gold-dim);font-weight:600;letter-spacing:.04em}
-.total-grand-val{font-size:28px;font-weight:700;color:var(--gold)}
-.send-box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:12px}
+.total-grand{background:#0a1a0d;display:flex;justify-content:space-between;align-items:center;padding:20px 16px}
+.total-grand-label{font-size:13px;color:var(--green-dim);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.total-grand-val{font-size:30px;font-weight:700;color:var(--green)}
+
+/* WIRE BANNER */
+.wire-banner{background:#140808;border:1px solid var(--red-dim);border-radius:var(--radius);padding:14px 16px;margin-bottom:12px;display:flex;align-items:flex-start;gap:10px}
+.wire-banner-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.wire-banner-text{font-size:13px;color:#c0392b;line-height:1.6}
+.wire-banner-text strong{color:#e74c3c;display:block;margin-bottom:2px;font-size:14px}
+
+/* SEND BOX */
+.send-box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:16px}
 .send-box-header{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
 .send-box-title{font-size:14px;font-weight:600}
 .send-box-sub{font-size:12px;color:var(--muted);margin-top:2px}
-.send-steps{padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.send-steps{padding:14px 16px;display:flex;flex-direction:column;gap:12px}
 .step{display:flex;align-items:flex-start;gap:12px}
-.step-num{width:24px;height:24px;border-radius:50%;background:var(--gold);color:#000;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.step-num{width:24px;height:24px;border-radius:50%;background:var(--red);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
 .step-text{font-size:13px;color:var(--muted);line-height:1.5}
 .step-text strong{color:var(--text)}
-.btn-primary{width:100%;padding:18px;background:var(--gold);color:#000;border:none;border-radius:var(--radius);font-size:17px;font-weight:700;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity .15s}
+
+/* BUTTONS */
+.btn-primary{width:100%;padding:18px;background:var(--red);color:#fff;border:none;border-radius:var(--radius);font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity .15s;letter-spacing:.01em}
 .btn-primary:active{opacity:.8}
-.btn-gmail{width:100%;padding:18px;background:#1a1a1a;color:#fff;border:1px solid #3a3a3a;border-radius:var(--radius);font-size:16px;font-weight:600;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:all .2s;margin-top:10px}
-.btn-gmail:active{border-color:var(--gold);color:var(--gold)}
-.btn-secondary{width:100%;padding:15px;background:none;color:var(--muted);border:1px solid var(--border);border-radius:var(--radius);font-size:15px;font-family:inherit;cursor:pointer;margin-top:10px}
-.btn-secondary:active{border-color:var(--gold);color:var(--gold)}
+.btn-green{width:100%;padding:18px;background:var(--green-dim);color:#fff;border:none;border-radius:var(--radius);font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity .2s;margin-top:10px}
+.btn-green:active{opacity:.8}
+.btn-secondary{width:100%;padding:15px;background:none;color:var(--muted);border:1px solid var(--border);border-radius:var(--radius);font-size:14px;font-family:inherit;cursor:pointer;margin-top:10px}
+.btn-secondary:active{border-color:var(--red);color:var(--red)}
 .about-row{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--border)}
 .about-row:last-child{border-bottom:none}
 .about-label{font-size:14px;color:var(--muted)}
-.about-val{font-size:14px;font-weight:500;text-align:right;max-width:60%}
-.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:#1a1a1a;border:1px solid var(--gold);color:var(--gold);border-radius:30px;padding:13px 26px;font-size:14px;font-weight:600;z-index:100;transition:transform .3s ease;white-space:nowrap;pointer-events:none}
+.about-val{font-size:14px;font-weight:500;text-align:right;max-width:65%}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:#141414;border:1px solid var(--green);color:var(--green);border-radius:30px;padding:13px 26px;font-size:14px;font-weight:600;z-index:100;transition:transform .3s ease;white-space:nowrap;pointer-events:none}
 .toast.show{transform:translateX(-50%) translateY(0)}
 </style>
 </head>
 <body>
 <div class="app">
   <div class="topnav">
-    <div class="topnav-logo">
-      <div class="logo-box"><span>E11</span></div>
+    <div class="brand">
+      <div class="brand-icon">
+        <div class="brand-icon-bar"></div>
+        <div class="brand-icon-bar"></div>
+        <div class="brand-icon-bar"></div>
+      </div>
       <div>
-        <div class="logo-text">E11even</div>
-        <div class="logo-sub">Invoice</div>
+        <div class="brand-name">Devoid Caliber Inc.</div>
+        <div class="brand-sub">Creative Media &amp; Technology</div>
       </div>
     </div>
     <div class="nav-tabs">
       <button class="nav-tab active" onclick="showScreen('invoice')">Invoice</button>
-      <button class="nav-tab" onclick="showScreen('settings')">Me</button>
+      <button class="nav-tab" onclick="showScreen('settings')">My Info</button>
     </div>
   </div>
 
+  <!-- INVOICE SCREEN -->
   <div class="screen active" id="screen-invoice">
     <div class="section-label">Invoice Info</div>
     <div class="card">
-      <div class="card-row"><div class="row-label">Invoice #</div><div class="row-value"><input id="f-num" placeholder="E11-001"/></div></div>
+      <div class="card-row"><div class="row-label">Invoice #</div><div class="row-value"><input id="f-num" placeholder="DCI-001"/></div></div>
       <div class="card-row"><div class="row-label">Invoice Date</div><div class="row-value"><input type="date" id="f-date"/></div></div>
       <div class="card-row"><div class="row-label">Due Date (Net 14)</div><div class="row-value"><input type="date" id="f-due"/></div></div>
+      <div class="card-row"><div class="row-label">Client</div><div class="row-value"><input id="f-client" placeholder="E11even Miami"/></div></div>
       <div class="card-row"><div class="row-label">Role</div><div class="row-value">
         <select id="f-role">
           <option>Graphics Operator / VJ</option>
@@ -121,7 +151,7 @@ html,body{background:var(--bg);color:var(--text);font-family:-apple-system,Blink
           <option>AV Technician</option>
         </select>
       </div></div>
-      <div class="card-row"><div class="row-label">Rate per Night</div><div class="row-value"><input type="number" id="f-rate" placeholder="$0" inputmode="decimal" oninput="rateChanged()"/></div></div>
+      <div class="card-row"><div class="row-label">Rate per Night</div><div class="row-value"><input type="number" id="f-rate" value="400" inputmode="decimal" oninput="rateChanged()"/></div></div>
     </div>
 
     <div class="section-label">Nights Worked</div>
@@ -131,31 +161,41 @@ html,body{background:var(--bg);color:var(--text);font-family:-apple-system,Blink
     <div class="section-label">Total</div>
     <div class="totals-card">
       <div class="total-row"><span class="total-label">Nights</span><span class="total-val" id="t-nights">0</span></div>
-      <div class="total-row"><span class="total-label">Rate / Night</span><span class="total-val" id="t-rate">$0</span></div>
-      <div class="total-grand"><span class="total-grand-label">TOTAL DUE</span><span class="total-grand-val" id="t-total">$0.00</span></div>
+      <div class="total-row"><span class="total-label">Rate / Night</span><span class="total-val" id="t-rate">$400</span></div>
+      <div class="total-grand"><span class="total-grand-label">Total Due</span><span class="total-grand-val" id="t-total">$0.00</span></div>
     </div>
 
-    <div class="section-label">Send Invoice</div>
+    <div class="section-label">Before You Send</div>
+    <div class="wire-banner">
+      <div class="wire-banner-icon">📎</div>
+      <div class="wire-banner-text">
+        <strong>Wire Request Form Required</strong>
+        Every invoice must include the completed wire request form. Attach both the PDF invoice and wire form before sending.
+      </div>
+    </div>
+
     <div class="send-box">
       <div class="send-box-header">
-        <div style="font-size:22px">📋</div>
-        <div><div class="send-box-title">Two-step send process</div><div class="send-box-sub">Preview PDF · open Gmail · attach · send</div></div>
+        <div style="font-size:20px">📤</div>
+        <div><div class="send-box-title">Send Your Invoice</div><div class="send-box-sub">Save PDF · open Gmail · attach both · send</div></div>
       </div>
       <div class="send-steps">
-        <div class="step"><div class="step-num">1</div><div class="step-text">Tap <strong>Preview &amp; Save PDF</strong> — opens invoice in a new tab, use Share → Save to Files</div></div>
-        <div class="step"><div class="step-num">2</div><div class="step-text">Tap <strong>Open Gmail Draft</strong> — new tab with email pre-filled, attach your PDF and send</div></div>
+        <div class="step"><div class="step-num">1</div><div class="step-text">Tap <strong>Preview &amp; Save PDF</strong> — opens in new tab, Share → Save to Files</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Tap <strong>Open Gmail Draft</strong> — new tab, email pre-filled and ready</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">Attach <strong>invoice PDF + wire request form</strong> then send</div></div>
       </div>
     </div>
 
     <button class="btn-primary" onclick="openPDFPreview()">👁 &nbsp;Preview &amp; Save PDF</button>
-    <button class="btn-gmail" onclick="openGmailDraft()">✉️ &nbsp;Open Gmail Draft</button>
+    <button class="btn-green" onclick="openGmailDraft()">✉️ &nbsp;Open Gmail Draft</button>
     <button class="btn-secondary" onclick="newInvoice()">↺ &nbsp;Start New Invoice</button>
   </div>
 
+  <!-- SETTINGS SCREEN -->
   <div class="screen" id="screen-settings">
     <div class="section-label">Your Info</div>
     <div class="card">
-      <div class="card-row"><div class="row-label">Name / S-Corp</div><div class="row-value"><input id="s-name" placeholder="Your Name or Co."/></div></div>
+      <div class="card-row"><div class="row-label">Legal Name</div><div class="row-value"><input id="s-name" placeholder="Devoid Caliber Inc."/></div></div>
       <div class="card-row"><div class="row-label">EIN</div><div class="row-value"><input id="s-ein" placeholder="XX-XXXXXXX" inputmode="numeric"/></div></div>
       <div class="card-row"><div class="row-label">Address</div><div class="row-value"><input id="s-addr" placeholder="City, FL ZIP"/></div></div>
       <div class="card-row"><div class="row-label">Email</div><div class="row-value"><input type="email" id="s-email" placeholder="you@domain.com" inputmode="email"/></div></div>
@@ -163,13 +203,14 @@ html,body{background:var(--bg);color:var(--text);font-family:-apple-system,Blink
     </div>
     <button class="btn-primary" onclick="saveSettings()">Save My Info</button>
 
-    <div class="section-label" style="margin-top:32px">E11even Miami</div>
+    <div class="section-label" style="margin-top:32px">Company</div>
     <div class="card">
-      <div class="about-row"><span class="about-label">Client</span><span class="about-val">GR OPCO LLC</span></div>
-      <div class="about-row"><span class="about-label">Address</span><span class="about-val">1112 N Miami Ave FL 33136</span></div>
-      <div class="about-row"><span class="about-label">AP Email</span><span class="about-val">Ap@11usa.com</span></div>
-      <div class="about-row"><span class="about-label">Accounting</span><span class="about-val">Accounting@11usa.com</span></div>
-      <div class="about-row"><span class="about-label">Terms</span><span class="about-val">Net 14 · 1.5%/mo late fee</span></div>
+      <div class="about-row"><span class="about-label">Entity</span><span class="about-val">Devoid Caliber Inc.</span></div>
+      <div class="about-row"><span class="about-label">Type</span><span class="about-val">S-Corporation</span></div>
+      <div class="about-row"><span class="about-label">Services</span><span class="about-val">Creative Media &amp; Technology</span></div>
+      <div class="about-row"><span class="about-label">Default Rate</span><span class="about-val">$400 / night</span></div>
+      <div class="about-row"><span class="about-label">Payment Terms</span><span class="about-val">Net 14</span></div>
+      <div class="about-row"><span class="about-label">Late Fee</span><span class="about-val">1.5% / month</span></div>
     </div>
   </div>
 </div>
@@ -179,8 +220,8 @@ html,body{background:var(--bg);color:var(--text);font-family:-apple-system,Blink
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
 let nightCount=0;
-let invNum=parseInt(localStorage.getItem('e11_num')||'1');
-let info=JSON.parse(localStorage.getItem('e11_info')||'{}');
+let invNum=parseInt(localStorage.getItem('dci_num')||'1');
+let info=JSON.parse(localStorage.getItem('dci_info')||'{}');
 
 function showScreen(s){
   document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));
@@ -193,7 +234,7 @@ function loadInfo(){
 }
 function saveSettings(){
   info={name:g('s-name'),ein:g('s-ein'),addr:g('s-addr'),email:g('s-email'),phone:g('s-phone')};
-  localStorage.setItem('e11_info',JSON.stringify(info));
+  localStorage.setItem('dci_info',JSON.stringify(info));
   showToast('Saved ✓');
 }
 function g(id){return document.getElementById(id).value;}
@@ -202,12 +243,13 @@ function initForm(){
   document.getElementById('f-date').value=t.toISOString().split('T')[0];
   const d=new Date(t);d.setDate(d.getDate()+14);
   document.getElementById('f-due').value=d.toISOString().split('T')[0];
-  document.getElementById('f-num').value='E11-'+String(invNum).padStart(3,'0');
+  document.getElementById('f-num').value='DCI-'+String(invNum).padStart(3,'0');
+  document.getElementById('f-client').value='E11even Miami';
+  calcTotals();
 }
 function addNight(){
   nightCount++;
   const id='n'+Date.now();
-  const rate=parseFloat(g('f-rate'))||0;
   const el=document.createElement('div');
   el.className='night-item';el.id=id;
   el.innerHTML=`
@@ -219,11 +261,11 @@ function addNight(){
           <input type="date" class="nd-start" onchange="calcTotals()"/>
         </div>
       </div>
-      <div class="night-amt" id="${id}a">$${rate.toFixed(0)}</div>
+      <div class="night-amt" id="${id}a">$400</div>
       <button class="night-delete" onclick="removeNight('${id}')">×</button>
     </div>
     <div class="midnight-row">
-      <span class="midnight-label"><span>🌙</span> Worked past midnight (spans 2 dates)</span>
+      <span class="midnight-label"><span>🌙</span> Spans midnight (2 dates)</span>
       <label class="toggle">
         <input type="checkbox" class="midnight-toggle" onchange="toggleMidnight(this,'${id}')"/>
         <span class="toggle-slider"></span>
@@ -241,10 +283,9 @@ function toggleMidnight(cb,id){
   const endRow=document.getElementById(id+'-end');
   if(cb.checked){
     endRow.classList.add('visible');
-    const startInput=document.getElementById(id).querySelector('.nd-start');
-    if(startInput.value){
-      const next=new Date(startInput.value+'T12:00:00');
-      next.setDate(next.getDate()+1);
+    const s=document.getElementById(id).querySelector('.nd-start');
+    if(s.value){
+      const next=new Date(s.value+'T12:00:00');next.setDate(next.getDate()+1);
       document.getElementById(id).querySelector('.nd-end').value=next.toISOString().split('T')[0];
     }
   } else {
@@ -265,7 +306,7 @@ function rateChanged(){
   calcTotals();
 }
 function calcTotals(){
-  const rate=parseFloat(g('f-rate'))||0;
+  const rate=parseFloat(g('f-rate'))||400;
   const nights=document.querySelectorAll('.night-item').length;
   const total=rate*nights;
   document.getElementById('t-nights').textContent=nights;
@@ -275,8 +316,8 @@ function calcTotals(){
 function newInvoice(){
   if(!confirm('Clear and start a new invoice?'))return;
   document.getElementById('nights-list').innerHTML='';nightCount=0;
-  invNum++;localStorage.setItem('e11_num',String(invNum));
-  initForm();calcTotals();addNight();
+  invNum++;localStorage.setItem('dci_num',String(invNum));
+  initForm();addNight();
 }
 function showToast(msg){
   const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
@@ -287,202 +328,226 @@ function fmtDate(str){
   const[y,m,d]=str.split('-');
   return['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][parseInt(m)-1]+' '+parseInt(d)+', '+y;
 }
+function fmtShort(str){
+  if(!str)return'—';
+  const[y,m,d]=str.split('-');return m+'/'+d+'/'+y;
+}
 function fmtMoney(n){return'$'+n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}
 function nightDateStr(item){
   const start=item.querySelector('.nd-start').value;
-  const isMidnight=item.querySelector('.midnight-toggle').checked;
+  const isMid=item.querySelector('.midnight-toggle').checked;
   const end=item.querySelector('.nd-end').value;
-  if(isMidnight&&end) return fmtDate(start)+' – '+fmtDate(end);
+  if(isMid&&end)return fmtDate(start)+' – '+fmtDate(end);
   return start?fmtDate(start):'—';
 }
+function nightDateShort(item){
+  const start=item.querySelector('.nd-start').value;
+  const isMid=item.querySelector('.midnight-toggle').checked;
+  const end=item.querySelector('.nd-end').value;
+  if(isMid&&end)return fmtShort(start)+' - '+fmtShort(end);
+  return start?fmtShort(start):'—';
+}
 
-// ── BUILD PDF DATA URL (returns base64 PDF for new tab) ──────────────────────
 function buildPDFDoc(){
   const items=document.querySelectorAll('.night-item');
   const{jsPDF}=window.jspdf;
   const doc=new jsPDF({unit:'pt',format:'letter'});
   const W=612,ml=40,mr=W-40,cw=W-ml*2;
-  const rate=parseFloat(g('f-rate'))||0;
+  const rate=parseFloat(g('f-rate'))||400;
   const num=g('f-num'),idate=g('f-date'),ddate=g('f-due'),role=g('f-role');
+  const client=g('f-client')||'E11even Miami';
   const total=rate*items.length;
 
-  doc.setFillColor(18,18,18);doc.rect(0,0,W,88,'F');
-  doc.setFont('helvetica','bold');doc.setFontSize(20);doc.setTextColor(255,255,255);
-  doc.text(info.name||'',ml+6,34);
-  doc.setFont('helvetica','normal');doc.setFontSize(8.5);doc.setTextColor(170,140,50);
-  const sub=[info.addr,info.email,info.phone].filter(Boolean).join('  ·  ');
-  doc.text(sub,ml+6,50);
-  if(info.ein){doc.setFontSize(8);doc.setTextColor(130,105,35);doc.text('EIN: '+info.ein,ml+6,63);}
-  doc.setFont('helvetica','bold');doc.setFontSize(26);doc.setTextColor(212,175,55);
-  doc.text('INVOICE',mr,38,{align:'right'});
-  doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(170,140,50);
-  doc.text(num,mr,54,{align:'right'});
+  // HEADER — black with red left bar and green right accent
+  doc.setFillColor(10,10,10);doc.rect(0,0,W,92,'F');
+  doc.setFillColor(192,57,43);doc.rect(0,0,5,92,'F');
+  doc.setFillColor(39,174,96);doc.rect(W-5,0,5,92,'F');
 
-  let y=106;
-  doc.setFillColor(248,248,248);doc.roundedRect(ml,y,cw*0.48,82,4,4,'F');
-  doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(100,80,10);
-  doc.text('BILL TO',ml+12,y+16);
-  doc.setFont('helvetica','bold');doc.setFontSize(11);doc.setTextColor(20,20,20);
-  doc.text('GR OPCO LLC',ml+12,y+32);
+  // Company name
+  doc.setFont('helvetica','bold');doc.setFontSize(21);doc.setTextColor(255,255,255);
+  doc.text('Devoid Caliber Inc.',ml+10,34);
+  doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(160,160,160);
+  doc.text('Creative Media & Technology',ml+10,50);
+  const sub=[info.addr,info.email,info.phone].filter(Boolean).join('  ·  ');
+  if(sub)doc.text(sub,ml+10,63);
+  if(info.ein){doc.setFontSize(8);doc.setTextColor(120,120,120);doc.text('EIN: '+info.ein,ml+10,76);}
+
+  // INVOICE label
+  doc.setFont('helvetica','bold');doc.setFontSize(24);doc.setTextColor(192,57,43);
+  doc.text('INVOICE',mr-5,36,{align:'right'});
+  doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(160,160,160);
+  doc.text(num,mr-5,52,{align:'right'});
+
+  // BILL TO + DETAILS
+  let y=110;
+  doc.setFillColor(248,248,248);doc.roundedRect(ml,y,cw*0.48,82,3,3,'F');
+  doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(130,30,20);
+  doc.text('BILL TO',ml+12,y+15);
+  doc.setFont('helvetica','bold');doc.setFontSize(11);doc.setTextColor(15,15,15);
+  doc.text(client,ml+12,y+31);
   doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(70,70,70);
-  doc.text('E11even Miami',ml+12,y+46);
-  doc.text('1112 North Miami Avenue',ml+12,y+59);
-  doc.text('Miami, Florida 33136',ml+12,y+72);
+  if(client==='E11even Miami'||client==='GR OPCO LLC'){
+    doc.text('GR OPCO LLC / E11even Miami',ml+12,y+31);
+    doc.text('1112 North Miami Avenue',ml+12,y+45);
+    doc.text('Miami, Florida 33136',ml+12,y+58);
+    doc.text('Ap@11usa.com · Accounting@11usa.com',ml+12,y+71);
+  }
 
   const rx=ml+cw*0.52;
-  doc.setFillColor(248,248,248);doc.roundedRect(rx,y,cw*0.48,82,4,4,'F');
-  let dy2=y+16;
-  [['Invoice #',num],['Invoice Date',idate?fmtDate(idate):'—'],['Due Date (Net 14)',ddate?fmtDate(ddate):'—']].forEach(([k,val])=>{
-    doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(100,80,10);doc.text(k,rx+12,dy2);
-    doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(20,20,20);doc.text(val,rx+cw*0.48-10,dy2,{align:'right'});
-    dy2+=22;
+  doc.setFillColor(248,248,248);doc.roundedRect(rx,y,cw*0.48,82,3,3,'F');
+  let dy2=y+15;
+  [['Invoice #',num],['Date',idate?fmtDate(idate):'—'],['Due (Net 14)',ddate?fmtDate(ddate):'—'],['Services',role]].forEach(([k,val])=>{
+    doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(130,30,20);doc.text(k,rx+12,dy2);
+    doc.setFont('helvetica','normal');doc.setFontSize(8.5);doc.setTextColor(20,20,20);
+    const shortened=val.length>22?val.substring(0,22)+'…':val;
+    doc.text(shortened,rx+cw*0.48-10,dy2,{align:'right'});
+    dy2+=18;
   });
 
-  y+=96;
-  doc.setFillColor(18,18,18);doc.rect(ml,y,cw,24,'F');
-  doc.setFont('helvetica','bold');doc.setFontSize(8.5);doc.setTextColor(212,175,55);
-  const c0=ml+10,c1=ml+175,c2=ml+310,c3=mr-10;
-  doc.text('Description / Event',c0,y+16);
+  // TABLE HEADER
+  y+=94;
+  doc.setFillColor(10,10,10);doc.rect(ml,y,cw,24,'F');
+  doc.setFont('helvetica','bold');doc.setFontSize(8.5);doc.setTextColor(192,57,43);
+  const c0=ml+10,c1=ml+180,c2=ml+320,c3=mr-10;
+  doc.text('Description',c0,y+16);
   doc.text('Date(s) Worked',c1,y+16);
   doc.text('Rate',c2,y+16,{align:'right'});
   doc.text('Amount',c3,y+16,{align:'right'});
   y+=24;
 
+  // TABLE ROWS
   items.forEach((item,i)=>{
     const dateStr=nightDateStr(item);
     const note=item.querySelector('.nn').value||role;
-    const isMidnight=item.querySelector('.midnight-toggle').checked;
-    if(i%2===0){doc.setFillColor(252,250,244);}else{doc.setFillColor(255,255,255);}
-    const rowH=isMidnight?28:22;
+    const isMid=item.querySelector('.midnight-toggle').checked;
+    doc.setFillColor(i%2===0?250:255,i%2===0?250:255,i%2===0?250:255);
+    const rowH=isMid?28:22;
     doc.rect(ml,y,cw,rowH,'F');
-    doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(30,30,30);
+    doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(25,25,25);
     doc.text(note.substring(0,28),c0,y+14);
-    if(isMidnight){
-      doc.setFontSize(8);doc.text(dateStr,c1,y+13);
-      doc.setFontSize(7.5);doc.setTextColor(140,110,20);doc.text('(spans midnight)',c1,y+22);
+    if(isMid){
+      doc.setFontSize(8);doc.text(dateStr,c1,y+12);
+      doc.setFontSize(7.5);doc.setTextColor(39,130,60);doc.text('spans midnight',c1,y+21);
     } else {
-      doc.setFontSize(9);doc.text(dateStr,c1,y+14);
+      doc.text(dateStr,c1,y+14);
     }
-    doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(30,30,30);
+    doc.setTextColor(25,25,25);doc.setFontSize(9);
     doc.text(fmtMoney(rate),c2,y+14,{align:'right'});
     doc.text(fmtMoney(rate),c3,y+14,{align:'right'});
-    doc.setDrawColor(225,218,200);doc.setLineWidth(0.3);doc.line(ml,y+rowH,mr,y+rowH);
+    doc.setDrawColor(230,230,230);doc.setLineWidth(0.3);doc.line(ml,y+rowH,mr,y+rowH);
     y+=rowH;
   });
 
-  y+=12;
-  doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(80,80,80);
-  doc.text('SUBTOTAL:',mr-160,y);doc.text(fmtMoney(total),c3,y,{align:'right'});y+=14;
-  doc.setFontSize(8);doc.setTextColor(140,140,140);
-  doc.text(`${items.length} night${items.length!==1?'s':''} × ${fmtMoney(rate)} flat rate`,ml,y);
-  doc.text('No applicable tax (FL service exemption)',mr-160,y);y+=22;
+  // TOTALS
+  y+=14;
+  doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(100,100,100);
+  doc.text('SUBTOTAL',mr-160,y);doc.text(fmtMoney(total),c3,y,{align:'right'});y+=13;
+  doc.setFontSize(8);doc.setTextColor(150,150,150);
+  doc.text(`${items.length} night${items.length!==1?'s':''} × ${fmtMoney(rate)} flat rate  ·  No applicable tax (FL service exemption)`,ml,y);y+=22;
 
-  doc.setFillColor(18,18,18);doc.rect(ml,y,cw,36,'F');
+  // BALANCE DUE BAR
+  doc.setFillColor(10,10,10);doc.rect(ml,y,cw,38,'F');
+  doc.setFillColor(192,57,43);doc.rect(ml,y,4,38,'F');
+  doc.setFillColor(39,174,96);doc.rect(mr-4,y,4,38,'F');
   doc.setFont('helvetica','bold');doc.setFontSize(12);doc.setTextColor(255,255,255);
-  doc.text('BALANCE DUE',ml+14,y+23);
-  doc.setFont('helvetica','bold');doc.setFontSize(14);doc.setTextColor(212,175,55);
-  doc.text(fmtMoney(total),c3,y+23,{align:'right'});
-  y+=48;
+  doc.text('BALANCE DUE',ml+14,y+24);
+  doc.setFont('helvetica','bold');doc.setFontSize(15);doc.setTextColor(39,174,96);
+  doc.text(fmtMoney(total),c3,y+24,{align:'right'});
+  y+=50;
 
-  doc.setFillColor(250,248,240);doc.roundedRect(ml,y,cw,58,4,4,'F');
-  doc.setDrawColor(212,175,55);doc.setLineWidth(0.5);doc.roundedRect(ml,y,cw,58,4,4,'S');
-  doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(110,85,10);
+  // TERMS BOX
+  doc.setFillColor(250,250,250);doc.roundedRect(ml,y,cw,56,3,3,'F');
+  doc.setDrawColor(200,200,200);doc.setLineWidth(0.5);doc.roundedRect(ml,y,cw,56,3,3,'S');
+  doc.setFillColor(192,57,43);doc.rect(ml,y,3,56,'F');
+  doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(130,30,20);
   doc.text('PAYMENT TERMS',ml+12,y+14);
   doc.setFont('helvetica','normal');doc.setFontSize(8.5);doc.setTextColor(50,50,50);
-  doc.text('Net 14 days from invoice date. Payments after due date subject to 1.5% monthly late fee.',ml+12,y+27);
-  doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(110,85,10);
-  doc.text('SUBMIT TO',ml+12,y+42);
+  doc.text('Net 14 days from invoice date. Late payments subject to 1.5% per month.',ml+12,y+27);
+  doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(130,30,20);
+  doc.text('REMIT TO',ml+12,y+42);
   doc.setFont('helvetica','normal');doc.setTextColor(30,30,30);
   doc.text('Ap@11usa.com  ·  Accounting@11usa.com',ml+12,y+54);
 
+  // FOOTER
   const ph=doc.internal.pageSize.getHeight();
-  doc.setFillColor(18,18,18);doc.rect(0,ph-30,W,30,'F');
-  doc.setTextColor(140,115,35);doc.setFont('helvetica','normal');doc.setFontSize(7.5);
-  doc.text(`${info.name}${info.ein?' · EIN: '+info.ein:''} · Legally binding commercial document.`,W/2,ph-11,{align:'center'});
+  doc.setFillColor(10,10,10);doc.rect(0,ph-28,W,28,'F');
+  doc.setFillColor(192,57,43);doc.rect(0,ph-28,W/2,28,'F');
+  doc.setFillColor(39,174,96);doc.rect(W/2,ph-28,W/2,28,'F');
+  doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(7.5);
+  doc.text('Devoid Caliber Inc.',ml,ph-11);
+  doc.setFont('helvetica','normal');
+  doc.text(`${info.ein?'EIN: '+info.ein+' · ':''}Legally binding commercial document.`,mr,ph-11,{align:'right'});
 
-  return {doc, num};
+  return{doc,num};
 }
 
-// ── OPEN PDF IN NEW TAB — user sees it, can Share → Save to Files on iOS ─────
 function openPDFPreview(){
   const items=document.querySelectorAll('.night-item');
   if(!items.length){showToast('Add at least one night');return;}
-  if(!info.name){showToast('Add your info in the Me tab first');return;}
+  if(!info.name){showToast('Add your info in My Info first');return;}
   const{doc,num}=buildPDFDoc();
-  // output as blob URL and open in new tab
   const blob=doc.output('blob');
   const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  a.href=url;
-  a.download=`${num}_E11even_Miami.pdf`;
-  a.target='_blank';
-  // On iOS, open in new tab so Safari shows the PDF with native Share sheet
-  // which lets user Save to Files, AirDrop, print, etc.
   const w=window.open('','_blank');
   if(w){
-    w.document.write(`<!DOCTYPE html>
-<html>
-<head>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>${num} — E11even Invoice</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#111;display:flex;flex-direction:column;align-items:center;min-height:100vh;font-family:-apple-system,sans-serif}
-.bar{width:100%;background:#1a1a1a;border-bottom:1px solid #2a2a2a;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
-.bar-title{font-size:15px;font-weight:600;color:#d4af37}
-.bar-sub{font-size:11px;color:#888;margin-top:2px}
-.hint{background:#1a1200;border:1px solid #d4af37;border-radius:10px;padding:12px 16px;margin:16px;width:calc(100% - 32px);font-size:13px;color:#d4af37;line-height:1.6}
+    w.document.write(`<!DOCTYPE html><html>
+<head><meta name="viewport" content="width=device-width,initial-scale=1"/><title>${num}</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}body{background:#0a0a0a;font-family:-apple-system,sans-serif}
+.bar{background:#141414;border-bottom:1px solid #222;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0}
+.bar-left{display:flex;flex-direction:column}
+.bar-title{font-size:15px;font-weight:700;color:#fff}
+.bar-sub{font-size:11px;color:#777;margin-top:2px}
+.hint{background:#140808;border:1px solid #922b21;border-radius:10px;padding:12px 16px;margin:16px;font-size:13px;color:#c0392b;line-height:1.6}
 .hint strong{color:#fff}
-embed{width:100%;height:calc(100vh - 160px);border:none}
-</style>
-</head>
+embed{width:100%;height:calc(100vh - 155px);border:none}
+</style></head>
 <body>
 <div class="bar">
-  <div>
-    <div class="bar-title">${num} — E11even Miami</div>
-    <div class="bar-sub">Invoice Preview</div>
-  </div>
+  <div class="bar-left"><div class="bar-title">${num}</div><div class="bar-sub">Devoid Caliber Inc. · Invoice</div></div>
 </div>
-<div class="hint">
-  📱 <strong>To save as PDF on iPhone:</strong> Tap the Share button (↑) → <strong>Save to Files</strong> or <strong>Save to Notes</strong>. Then attach from Files when emailing.
-</div>
+<div class="hint">📱 <strong>To save on iPhone:</strong> Tap the Share button (↑) → <strong>Save to Files</strong>. Then attach from Files in Gmail.</div>
 <embed src="${url}" type="application/pdf"/>
-</body>
-</html>`);
+</body></html>`);
     w.document.close();
   } else {
-    // Fallback: direct download if popup blocked
-    a.click();
-    showToast('PDF downloading…');
+    doc.save(`${num}_Invoice.pdf`);showToast('PDF downloading…');
   }
-  invNum++;
-  localStorage.setItem('e11_num',String(invNum));
+  invNum++;localStorage.setItem('dci_num',String(invNum));
 }
 
-// ── OPEN GMAIL IN NEW TAB ────────────────────────────────────────────────────
 function openGmailDraft(){
   const items=document.querySelectorAll('.night-item');
   if(!items.length){showToast('Add at least one night first');return;}
-  if(!info.name){showToast('Add your info in the Me tab first');return;}
-
-  const num=g('f-num')||'E11-001';
-  const name=info.name||'[Your Name]';
+  if(!info.name){showToast('Add your info in My Info first');return;}
+  const num=g('f-num')||'DCI-001';
+  const name=info.name||'Devoid Caliber Inc.';
   const role=g('f-role');
-  const rate=parseFloat(g('f-rate'))||0;
-  const dueDate=g('f-due');
+  const rate=parseFloat(g('f-rate'))||400;
   const total=rate*items.length;
-  const dateLines=[];
-  items.forEach(item=>{
-    const dateStr=nightDateStr(item);
-    const note=item.querySelector('.nn').value;
-    dateLines.push('  • '+dateStr+(note?' — '+note:''));
-  });
-  const subject=`Invoice ${num} — ${name} — ${role} — E11even Miami`;
-  const body=`Hi,\n\nPlease find attached Invoice ${num} for services rendered at E11even Miami.\n\nServices: ${role}\nDates Worked:\n${dateLines.join('\n')}\n\nInvoice Total: ${fmtMoney(total)}\nPayment Due: ${dueDate?fmtDate(dueDate):'—'} (Net 14)\n\nPlease don't hesitate to reach out with any questions.\n\nThank you,\n${name}${info.phone?'\n'+info.phone:''}${info.email?'\n'+info.email:''}`;
+  const dateStrings=[];
+  items.forEach(item=>dateStrings.push(nightDateShort(item)));
+  const dateRange=dateStrings.join(', ');
+  const client=g('f-client')||'E11even Miami';
+  const to=client.toLowerCase().includes('e11')||client.toLowerCase().includes('goldrush')
+    ?'Ap@11usa.com,Accounting@11usa.com':'';
+  const subject=`Invoice ${num} — Devoid Caliber Inc. — ${role} — ${client}`;
+  const body=`Hi,
 
-  const gmailURL='https://mail.google.com/mail/?view=cm&fs=1&to='+encodeURIComponent('Ap@11usa.com,Accounting@11usa.com')+'&su='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
-  window.open(gmailURL,'_blank');
-  showToast('Gmail opened in new tab ✓');
+Please find the attached invoice for services rendered at ${client} on ${dateRange}.
+Also attached is the wire request form with my information.
+If there's anything missing please let me know.
+
+Invoice #: ${num}
+Services: ${role}
+
+Invoice Total: ${fmtMoney(total)}
+
+Thank you,
+${name}${info.phone?'\n'+info.phone:''}${info.email?'\n'+info.email:''}`;
+
+  const url='https://mail.google.com/mail/?view=cm&fs=1&to='+encodeURIComponent(to)+'&su='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+  window.open(url,'_blank');
+  showToast('Gmail opened ✓');
 }
 
 loadInfo();initForm();addNight();
