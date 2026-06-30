@@ -383,14 +383,17 @@ function buildPDFDoc(){
   doc.setFillColor(248,248,248);doc.roundedRect(ml,y,cw*0.48,82,3,3,'F');
   doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(130,30,20);
   doc.text('BILL TO',ml+12,y+15);
-  doc.setFont('helvetica','bold');doc.setFontSize(11);doc.setTextColor(15,15,15);
-  doc.text(client,ml+12,y+31);
   doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(70,70,70);
-  if(client==='E11even Miami'||client==='GR OPCO LLC'){
+  if(client.toLowerCase().includes('e11')||client.toLowerCase().includes('gr opco')){
+    doc.setFont('helvetica','bold');doc.setFontSize(11);doc.setTextColor(15,15,15);
     doc.text('GR OPCO LLC / E11even Miami',ml+12,y+31);
+    doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(70,70,70);
     doc.text('1112 North Miami Avenue',ml+12,y+45);
     doc.text('Miami, Florida 33136',ml+12,y+58);
     doc.text('Ap@11usa.com · Accounting@11usa.com',ml+12,y+71);
+  } else {
+    doc.setFont('helvetica','bold');doc.setFontSize(11);doc.setTextColor(15,15,15);
+    doc.text(client,ml+12,y+31);
   }
 
   const rx=ml+cw*0.52;
@@ -467,6 +470,19 @@ function buildPDFDoc(){
   doc.text('REMIT TO',ml+12,y+42);
   doc.setFont('helvetica','normal');doc.setTextColor(30,30,30);
   doc.text('Ap@11usa.com  ·  Accounting@11usa.com',ml+12,y+54);
+
+  // PAYMENT METHODS
+  y+=10;
+  doc.setFillColor(10,10,10);doc.rect(ml,y,cw,28,'F');
+  doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(160,160,160);
+  doc.text('ACCEPTED PAYMENT METHODS',ml+12,y+11);
+  doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(255,255,255);
+  // Three payment pills
+  const methods=[['🏦 Bank Wire',ml+12],['💚 Zelle',ml+120],['🍎 Apple Pay',ml+195]];
+  methods.forEach(([label,x])=>{
+    doc.text(label,x,y+22);
+  });
+  y+=36;
 
   // FOOTER
   const ph=doc.internal.pageSize.getHeight();
