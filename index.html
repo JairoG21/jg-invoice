@@ -51,7 +51,7 @@ html,body{background:var(--bg);color:var(--text);font-family:-apple-system,Blink
 .night-dates{flex:1}
 .date-row{display:flex;align-items:center;gap:6px}
 .date-label{font-size:11px;color:var(--muted);min-width:36px}
-.date-row input[type=date]{background:none;border:none;color:var(--text);font-size:14px;font-family:inherit;outline:none;flex:1}
+.date-row input[type=date]{background:none;border:none;color:#fff;font-size:14px;font-family:inherit;outline:none;flex:1;color-scheme:dark}
 .night-amt{font-size:15px;font-weight:700;color:var(--green);min-width:55px;text-align:right}
 .night-delete{width:32px;height:32px;border-radius:8px;border:1px solid #2a1010;background:none;color:#e74c3c;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .midnight-row{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-top:1px solid var(--border);background:#0f0f0f}
@@ -64,7 +64,7 @@ html,body{background:var(--bg);color:var(--text);font-family:-apple-system,Blink
 .toggle input:checked+.toggle-slider:before{background:var(--green);transform:translateX(18px)}
 .end-date-row{display:none;align-items:center;gap:6px;padding:10px 16px;border-top:1px solid var(--border)}
 .end-date-row.visible{display:flex}
-.end-date-row input[type=date]{background:var(--input-bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:14px;font-family:inherit;padding:7px 10px;flex:1;outline:none}
+.end-date-row input[type=date]{background:var(--input-bg);border:1px solid var(--border);border-radius:8px;color:#fff;font-size:14px;font-family:inherit;padding:7px 10px;flex:1;outline:none;color-scheme:dark}
 .end-date-row input:focus{border-color:var(--green-dim)}
 .night-note{padding:10px 16px;border-top:1px solid var(--border)}
 .night-note input{background:var(--input-bg);border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:13px;font-family:inherit;padding:9px 12px;width:100%;outline:none}
@@ -473,16 +473,19 @@ function buildPDFDoc(){
 
   // PAYMENT METHODS
   y+=10;
-  doc.setFillColor(10,10,10);doc.rect(ml,y,cw,28,'F');
-  doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(160,160,160);
+  doc.setFillColor(10,10,10);doc.rect(ml,y,cw,30,'F');
+  doc.setFont('helvetica','bold');doc.setFontSize(7.5);doc.setTextColor(140,140,140);
   doc.text('ACCEPTED PAYMENT METHODS',ml+12,y+11);
-  doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(255,255,255);
-  // Three payment pills
-  const methods=[['🏦 Bank Wire',ml+12],['💚 Zelle',ml+120],['🍎 Apple Pay',ml+195]];
-  methods.forEach(([label,x])=>{
-    doc.text(label,x,y+22);
+  // Draw three pill boxes
+  const pmethods=[['BANK WIRE',ml+12],['ZELLE',ml+110],['APPLE PAY',ml+185]];
+  pmethods.forEach(([label,x])=>{
+    const pw=label.length*5.5+14;
+    doc.setFillColor(30,30,30);doc.roundedRect(x,y+14,pw,12,2,2,'F');
+    doc.setDrawColor(60,60,60);doc.setLineWidth(0.4);doc.roundedRect(x,y+14,pw,12,2,2,'S');
+    doc.setFont('helvetica','bold');doc.setFontSize(7);doc.setTextColor(200,200,200);
+    doc.text(label,x+pw/2,y+22,{align:'center'});
   });
-  y+=36;
+  y+=38;
 
   // FOOTER
   const ph=doc.internal.pageSize.getHeight();
