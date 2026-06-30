@@ -458,34 +458,23 @@ function buildPDFDoc(){
   doc.text(fmtMoney(total),c3,y+24,{align:'right'});
   y+=50;
 
-  // TERMS BOX
-  doc.setFillColor(250,250,250);doc.roundedRect(ml,y,cw,56,3,3,'F');
-  doc.setDrawColor(200,200,200);doc.setLineWidth(0.5);doc.roundedRect(ml,y,cw,56,3,3,'S');
-  doc.setFillColor(192,57,43);doc.rect(ml,y,3,56,'F');
+  // TERMS BOX — with payment methods folded in
+  doc.setFillColor(250,250,250);doc.roundedRect(ml,y,cw,78,3,3,'F');
+  doc.setDrawColor(200,200,200);doc.setLineWidth(0.5);doc.roundedRect(ml,y,cw,78,3,3,'S');
+  doc.setFillColor(192,57,43);doc.rect(ml,y,3,78,'F');
   doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(130,30,20);
-  doc.text('PAYMENT TERMS',ml+12,y+14);
+  doc.text('PAYMENT TERMS',ml+12,y+13);
   doc.setFont('helvetica','normal');doc.setFontSize(8.5);doc.setTextColor(50,50,50);
-  doc.text('Net 14 days from invoice date. Late payments subject to 1.5% per month.',ml+12,y+27);
+  doc.text('Net 14 days from invoice date. Late payments subject to 1.5% per month.',ml+12,y+25);
   doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(130,30,20);
-  doc.text('REMIT TO',ml+12,y+42);
-  doc.setFont('helvetica','normal');doc.setTextColor(30,30,30);
-  doc.text('Ap@11usa.com  ·  Accounting@11usa.com',ml+12,y+54);
-
-  // PAYMENT METHODS
+  doc.text('ACCEPTED PAYMENTS',ml+12,y+40);
+  doc.setFont('helvetica','normal');doc.setFontSize(8.5);doc.setTextColor(50,50,50);
+  doc.text('Bank Wire  ·  Zelle  ·  Apple Pay',ml+12,y+52);
+  doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(130,30,20);
+  doc.text('REMIT TO',ml+12,y+65);
+  doc.setFont('helvetica','normal');doc.setTextColor(30,30,30);doc.setFontSize(8.5);
+  doc.text('Ap@11usa.com  ·  Accounting@11usa.com',ml+12,y+76);
   y+=10;
-  doc.setFillColor(10,10,10);doc.rect(ml,y,cw,30,'F');
-  doc.setFont('helvetica','bold');doc.setFontSize(7.5);doc.setTextColor(140,140,140);
-  doc.text('ACCEPTED PAYMENT METHODS',ml+12,y+11);
-  // Draw three pill boxes
-  const pmethods=[['BANK WIRE',ml+12],['ZELLE',ml+110],['APPLE PAY',ml+185]];
-  pmethods.forEach(([label,x])=>{
-    const pw=label.length*5.5+14;
-    doc.setFillColor(30,30,30);doc.roundedRect(x,y+14,pw,12,2,2,'F');
-    doc.setDrawColor(60,60,60);doc.setLineWidth(0.4);doc.roundedRect(x,y+14,pw,12,2,2,'S');
-    doc.setFont('helvetica','bold');doc.setFontSize(7);doc.setTextColor(200,200,200);
-    doc.text(label,x+pw/2,y+22,{align:'center'});
-  });
-  y+=38;
 
   // FOOTER
   const ph=doc.internal.pageSize.getHeight();
