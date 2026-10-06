@@ -7,109 +7,142 @@
 <style>
 :root{
   --red:#c0392b;--red-dim:#922b21;--green:#27ae60;--green-dim:#1e8449;
-  --bg:#0a0a0a;--card:#141414;--card2:#1a1a1a;--border:#222;
-  --text:#f0f0f0;--muted:#777;--input-bg:#0f0f0f;--radius:14px;
+  --bg:#0a0a0a;--card:#141414;--border:#222;--text:#f0f0f0;--muted:#777;--radius:14px;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;font-size:16px}
-.app{max-width:480px;margin:0 auto;padding:0 0 100px}
-
-/* TOP NAV */
-.topnav{padding:20px 20px 16px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg);z-index:10}
+html,body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh}
+.app{max-width:480px;margin:0 auto;padding:0 0 120px}
+.topnav{padding:18px 20px 14px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg);z-index:10}
 .brand{display:flex;align-items:center;gap:12px;margin-bottom:14px}
-.brand-icon{width:42px;height:42px;border-radius:10px;background:#111;border:1px solid var(--red);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;flex-shrink:0}
-.brand-icon-bar{width:22px;height:3px;border-radius:2px}
-.brand-icon-bar:nth-child(1){background:var(--red)}
-.brand-icon-bar:nth-child(2){background:#fff;width:16px}
-.brand-icon-bar:nth-child(3){background:var(--green)}
+.brand-icon{width:40px;height:40px;border-radius:10px;background:#111;border:1px solid var(--red);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;flex-shrink:0}
 .brand-name{font-size:17px;font-weight:700;color:#fff;letter-spacing:-.02em}
-.brand-sub{font-size:11px;color:var(--muted);margin-top:1px;letter-spacing:.04em;text-transform:uppercase}
+.brand-sub{font-size:11px;color:var(--muted);margin-top:1px;text-transform:uppercase;letter-spacing:.04em}
 .nav-tabs{display:flex;gap:4px;background:var(--card);border-radius:10px;padding:4px;border:1px solid var(--border)}
-.nav-tab{flex:1;padding:8px;border-radius:7px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border:none;background:none;font-family:inherit;transition:all .15s;text-align:center}
+.nav-tab{flex:1;padding:8px;border-radius:7px;font-size:12px;font-weight:500;color:var(--muted);cursor:pointer;border:none;background:none;font-family:inherit;text-align:center;transition:all .15s}
 .nav-tab.active{background:var(--red);color:#fff}
-
-/* SCREENS */
 .screen{display:none;padding:20px}
 .screen.active{display:block}
-.section-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;margin-top:24px}
+.section-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;margin-top:22px}
 .section-label:first-child{margin-top:0}
+
+/* WEEK HEADER */
+.week-header{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:12px}
+.week-title{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.week-range{font-size:18px;font-weight:700;color:#fff}
+.week-sub{font-size:12px;color:var(--muted);margin-top:3px}
+.week-meta{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.week-chip{background:#111;border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--muted);display:flex;align-items:center;gap:5px}
+.week-chip span{color:#fff;font-weight:600}
+
+/* CLIENT SELECTOR */
+.client-selector{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:12px}
+.client-selector-header{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.client-selector-label{font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.btn-edit-client{background:none;border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:12px;padding:5px 10px;cursor:pointer;font-family:inherit}
+.btn-edit-client:active{border-color:var(--red);color:var(--red)}
+.client-dropdown-row{padding:12px 16px;border-bottom:1px solid var(--border)}
+.client-dropdown-row select{width:100%;background:#111;border:1px solid var(--border);border-radius:8px;color:#fff;font-size:15px;font-weight:600;font-family:inherit;padding:10px 12px;outline:none}
+.client-dropdown-row select option{background:#141414}
+.client-info-preview{padding:12px 16px;display:flex;flex-direction:column;gap:4px}
+.client-info-line{font-size:13px;color:var(--muted)}
+.client-info-line strong{color:var(--text);font-weight:500}
 
 /* CARDS */
 .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:12px}
-.card-row{display:flex;align-items:center;padding:15px 16px;border-bottom:1px solid var(--border);gap:12px}
+.card-row{display:flex;align-items:center;padding:14px 16px;border-bottom:1px solid var(--border);gap:12px}
 .card-row:last-child{border-bottom:none}
-.row-label{font-size:14px;color:var(--muted);min-width:130px;flex-shrink:0}
+.row-label{font-size:14px;color:var(--muted);min-width:120px;flex-shrink:0}
 .row-value{flex:1;text-align:right}
-.row-value input,.row-value select{background:none;border:none;color:var(--text);font-size:15px;font-family:inherit;text-align:right;width:100%;outline:none}
+.row-value input,.row-value select{background:none;border:none;color:#fff;font-size:15px;font-family:inherit;text-align:right;width:100%;outline:none;color-scheme:dark}
 .row-value input::placeholder{color:#333}
 .row-value select option{background:#141414}
 
 /* NIGHT CARDS */
-.night-item{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;overflow:hidden}
-.night-header{display:flex;align-items:center;padding:14px 16px;gap:10px}
+.nights-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;margin-top:22px}
+.nights-title{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.nights-count{font-size:12px;background:var(--red);color:#fff;border-radius:20px;padding:3px 10px;font-weight:700}
+.night-item{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:8px;overflow:hidden}
+.night-header{display:flex;align-items:center;padding:13px 16px;gap:10px}
 .night-num{width:28px;height:28px;border-radius:50%;background:var(--red);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.night-dates{flex:1}
-.date-row{display:flex;align-items:center;gap:6px}
-.date-label{font-size:11px;color:var(--muted);min-width:36px}
-.date-row input[type=date]{background:none;border:none;color:#fff;font-size:14px;font-family:inherit;outline:none;flex:1;color-scheme:dark}
+.night-date-wrap{flex:1}
+.night-date-wrap input[type=date]{background:none;border:none;color:#fff;font-size:15px;font-family:inherit;outline:none;width:100%;color-scheme:dark}
 .night-amt{font-size:15px;font-weight:700;color:var(--green);min-width:55px;text-align:right}
-.night-delete{width:32px;height:32px;border-radius:8px;border:1px solid #2a1010;background:none;color:#e74c3c;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.midnight-row{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-top:1px solid var(--border);background:#0f0f0f}
-.midnight-label{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px}
-.toggle{position:relative;width:44px;height:26px;flex-shrink:0}
+.night-delete{width:30px;height:30px;border-radius:8px;border:1px solid #2a1010;background:none;color:#e74c3c;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.midnight-row{display:flex;align-items:center;justify-content:space-between;padding:9px 16px;border-top:1px solid var(--border);background:#0f0f0f}
+.midnight-label{font-size:12px;color:var(--muted)}
+.toggle{position:relative;width:40px;height:24px;flex-shrink:0}
 .toggle input{opacity:0;width:0;height:0}
-.toggle-slider{position:absolute;inset:0;background:#222;border-radius:26px;cursor:pointer;transition:.3s}
-.toggle-slider:before{content:'';position:absolute;width:20px;height:20px;left:3px;top:3px;background:#444;border-radius:50%;transition:.3s}
+.toggle-slider{position:absolute;inset:0;background:#222;border-radius:24px;cursor:pointer;transition:.3s}
+.toggle-slider:before{content:'';position:absolute;width:18px;height:18px;left:3px;top:3px;background:#444;border-radius:50%;transition:.3s}
 .toggle input:checked+.toggle-slider{background:#0d2010}
-.toggle input:checked+.toggle-slider:before{background:var(--green);transform:translateX(18px)}
-.end-date-row{display:none;align-items:center;gap:6px;padding:10px 16px;border-top:1px solid var(--border)}
-.end-date-row.visible{display:flex}
-.end-date-row input[type=date]{background:var(--input-bg);border:1px solid var(--border);border-radius:8px;color:#fff;font-size:14px;font-family:inherit;padding:7px 10px;flex:1;outline:none;color-scheme:dark}
-.end-date-row input:focus{border-color:var(--green-dim)}
-.night-note{padding:10px 16px;border-top:1px solid var(--border)}
-.night-note input{background:var(--input-bg);border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:13px;font-family:inherit;padding:9px 12px;width:100%;outline:none}
-.night-note input:focus{border-color:var(--red-dim);color:var(--text)}
-.add-night-btn{width:100%;padding:18px;background:none;border:1.5px dashed var(--border);border-radius:var(--radius);color:var(--muted);font-size:15px;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;margin-bottom:24px}
+.toggle input:checked+.toggle-slider:before{background:var(--green);transform:translateX(16px)}
+.end-date-row{display:none;padding:9px 16px;border-top:1px solid var(--border)}
+.end-date-row.visible{display:flex;align-items:center;gap:8px}
+.end-date-label{font-size:12px;color:var(--muted);min-width:50px}
+.end-date-row input[type=date]{background:#111;border:1px solid var(--border);border-radius:8px;color:#fff;font-size:14px;font-family:inherit;padding:6px 10px;flex:1;outline:none;color-scheme:dark}
+.night-note{padding:9px 16px;border-top:1px solid var(--border)}
+.night-note input{background:#111;border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:13px;font-family:inherit;padding:8px 12px;width:100%;outline:none}
+.night-note input:focus{border-color:var(--red-dim);color:#fff}
+.add-night-btn{width:100%;padding:16px;background:none;border:1.5px dashed var(--border);border-radius:var(--radius);color:var(--muted);font-size:15px;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;margin-bottom:6px}
 .add-night-btn:active{border-color:var(--green);color:var(--green)}
 
-/* TOTALS */
-.totals-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:20px}
-.total-row{display:flex;justify-content:space-between;align-items:center;padding:13px 16px;border-bottom:1px solid var(--border)}
-.total-label{font-size:14px;color:var(--muted)}
-.total-val{font-size:15px;font-weight:500}
-.total-grand{background:#0a1a0d;display:flex;justify-content:space-between;align-items:center;padding:20px 16px}
-.total-grand-label{font-size:13px;color:var(--green-dim);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
-.total-grand-val{font-size:30px;font-weight:700;color:var(--green)}
+/* TOTAL */
+.total-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:20px;margin-top:22px}
+.t-row{display:flex;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border);font-size:14px}
+.t-label{color:var(--muted)}
+.t-val{font-weight:500}
+.t-grand{display:flex;justify-content:space-between;align-items:center;padding:18px 16px;background:#0a1a0d}
+.t-grand-label{font-size:13px;font-weight:700;color:var(--green-dim);text-transform:uppercase;letter-spacing:.06em}
+.t-grand-val{font-size:30px;font-weight:700;color:var(--green)}
 
 /* WIRE BANNER */
-.wire-banner{background:#140808;border:1px solid var(--red-dim);border-radius:var(--radius);padding:14px 16px;margin-bottom:12px;display:flex;align-items:flex-start;gap:10px}
-.wire-banner-icon{font-size:18px;flex-shrink:0;margin-top:1px}
-.wire-banner-text{font-size:13px;color:#c0392b;line-height:1.6}
-.wire-banner-text strong{color:#e74c3c;display:block;margin-bottom:2px;font-size:14px}
+.wire-banner{display:flex;align-items:flex-start;gap:10px;background:#140808;border:1px solid var(--red-dim);border-radius:var(--radius);padding:14px 16px;margin-bottom:16px}
+.wire-text strong{display:block;font-size:14px;color:var(--red);margin-bottom:3px}
+.wire-text span{font-size:13px;color:#a94040;line-height:1.5}
 
-/* SEND BOX */
-.send-box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:16px}
-.send-box-header{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
-.send-box-title{font-size:14px;font-weight:600}
-.send-box-sub{font-size:12px;color:var(--muted);margin-top:2px}
+/* SEND */
+.send-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:16px}
+.send-header{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.send-header-text{font-size:14px;font-weight:600}
+.send-header-sub{font-size:12px;color:var(--muted);margin-top:2px}
 .send-steps{padding:14px 16px;display:flex;flex-direction:column;gap:12px}
-.step{display:flex;align-items:flex-start;gap:12px}
-.step-num{width:24px;height:24px;border-radius:50%;background:var(--red);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.step{display:flex;gap:12px;align-items:flex-start}
+.step-num{width:22px;height:22px;border-radius:50%;background:var(--red);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
 .step-text{font-size:13px;color:var(--muted);line-height:1.5}
-.step-text strong{color:var(--text)}
+.step-text strong{color:#fff}
 
 /* BUTTONS */
-.btn-primary{width:100%;padding:18px;background:var(--red);color:#fff;border:none;border-radius:var(--radius);font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity .15s;letter-spacing:.01em}
-.btn-primary:active{opacity:.8}
-.btn-green{width:100%;padding:18px;background:var(--green-dim);color:#fff;border:none;border-radius:var(--radius);font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity .2s;margin-top:10px}
+.btn-red{width:100%;padding:17px;background:var(--red);color:#fff;border:none;border-radius:var(--radius);font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-red:active{opacity:.8}
+.btn-green{width:100%;padding:17px;background:var(--green-dim);color:#fff;border:none;border-radius:var(--radius);font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px}
 .btn-green:active{opacity:.8}
-.btn-secondary{width:100%;padding:15px;background:none;color:var(--muted);border:1px solid var(--border);border-radius:var(--radius);font-size:14px;font-family:inherit;cursor:pointer;margin-top:10px}
-.btn-secondary:active{border-color:var(--red);color:var(--red)}
+.btn-ghost{width:100%;padding:14px;background:none;color:var(--muted);border:1px solid var(--border);border-radius:var(--radius);font-size:14px;font-family:inherit;cursor:pointer;margin-top:10px}
+.btn-ghost:active{color:var(--red);border-color:var(--red)}
+
+/* CLIENT MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:50;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:#141414;border:1px solid var(--border);border-radius:20px 20px 0 0;width:100%;max-width:480px;padding:24px 20px 40px;transform:translateY(100%);transition:transform .3s ease;max-height:90vh;overflow-y:auto}
+.modal-overlay.open .modal{transform:translateY(0)}
+.modal-title{font-size:17px;font-weight:700;margin-bottom:4px}
+.modal-sub{font-size:13px;color:var(--muted);margin-bottom:20px}
+.modal-field{margin-bottom:12px}
+.modal-field label{font-size:12px;color:var(--muted);display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em}
+.modal-field input{width:100%;background:#111;border:1px solid var(--border);border-radius:10px;color:#fff;font-size:15px;font-family:inherit;padding:11px 14px;outline:none}
+.modal-field input:focus{border-color:var(--red)}
+.modal-actions{display:flex;flex-direction:column;gap:8px;margin-top:20px}
+.btn-modal-save{width:100%;padding:15px;background:var(--red);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer}
+.btn-modal-delete{width:100%;padding:13px;background:none;color:#e74c3c;border:1px solid #2a1010;border-radius:12px;font-size:14px;font-family:inherit;cursor:pointer}
+.btn-modal-cancel{width:100%;padding:13px;background:none;color:var(--muted);border:1px solid var(--border);border-radius:12px;font-size:14px;font-family:inherit;cursor:pointer}
+.btn-modal-add{width:100%;padding:13px;background:#0a1a0d;color:var(--green);border:1px solid var(--green-dim);border-radius:12px;font-size:14px;font-family:inherit;cursor:pointer;margin-bottom:8px}
+
+/* SETTINGS */
 .about-row{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--border)}
 .about-row:last-child{border-bottom:none}
 .about-label{font-size:14px;color:var(--muted)}
 .about-val{font-size:14px;font-weight:500;text-align:right;max-width:65%}
-.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:#141414;border:1px solid var(--green);color:var(--green);border-radius:30px;padding:13px 26px;font-size:14px;font-weight:600;z-index:100;transition:transform .3s ease;white-space:nowrap;pointer-events:none}
+
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:#141414;border:1px solid var(--green);color:var(--green);border-radius:30px;padding:13px 26px;font-size:14px;font-weight:600;z-index:100;transition:transform .3s;white-space:nowrap;pointer-events:none}
 .toast.show{transform:translateX(-50%) translateY(0)}
 </style>
 </head>
@@ -118,9 +151,9 @@ html,body{background:var(--bg);color:var(--text);font-family:-apple-system,Blink
   <div class="topnav">
     <div class="brand">
       <div class="brand-icon">
-        <div class="brand-icon-bar"></div>
-        <div class="brand-icon-bar"></div>
-        <div class="brand-icon-bar"></div>
+        <div style="width:22px;height:3px;background:var(--red);border-radius:2px"></div>
+        <div style="width:16px;height:3px;background:#fff;border-radius:2px"></div>
+        <div style="width:22px;height:3px;background:var(--green);border-radius:2px"></div>
       </div>
       <div>
         <div class="brand-name">Devoid Caliber Inc.</div>
@@ -129,71 +162,97 @@ html,body{background:var(--bg);color:var(--text);font-family:-apple-system,Blink
     </div>
     <div class="nav-tabs">
       <button class="nav-tab active" onclick="showScreen('invoice')">Invoice</button>
-      <button class="nav-tab" onclick="showScreen('settings')">My Info</button>
+      <button class="nav-tab" onclick="showScreen('clients')">Clients</button>
+      <button class="nav-tab" onclick="showScreen('settings')">Me</button>
     </div>
   </div>
 
   <!-- INVOICE SCREEN -->
   <div class="screen active" id="screen-invoice">
-    <div class="section-label">Invoice Info</div>
-    <div class="card">
-      <div class="card-row"><div class="row-label">Invoice #</div><div class="row-value"><input id="f-num" placeholder="DCI-001"/></div></div>
-      <div class="card-row"><div class="row-label">Invoice Date</div><div class="row-value"><input type="date" id="f-date"/></div></div>
-      <div class="card-row"><div class="row-label">Due Date (Net 14)</div><div class="row-value"><input type="date" id="f-due"/></div></div>
-      <div class="card-row"><div class="row-label">Client</div><div class="row-value"><input id="f-client" placeholder="E11even Miami"/></div></div>
-      <div class="card-row"><div class="row-label">Role</div><div class="row-value">
-        <select id="f-role">
-          <option>Graphics Operator / VJ</option>
-          <option>VJ Performance</option>
-          <option>Media Server Operator</option>
-          <option>LED Wall Technician</option>
-          <option>Creative Director</option>
-          <option>AV Technician</option>
-        </select>
-      </div></div>
-      <div class="card-row"><div class="row-label">Rate per Night</div><div class="row-value"><input type="number" id="f-rate" value="400" inputmode="decimal" oninput="rateChanged()"/></div></div>
+    <div class="week-header" style="margin-top:20px">
+      <div class="week-title">📅 Current Invoice Period</div>
+      <div class="week-range" id="week-range">Add your nights below</div>
+      <div class="week-sub">Send by Wednesday · One invoice covers all nights that week</div>
+      <div class="week-meta">
+        <div class="week-chip">Nights: <span id="chip-nights">0</span></div>
+        <div class="week-chip">Total: <span id="chip-total">$0</span></div>
+        <div class="week-chip">Invoice: <span id="chip-num">—</span></div>
+      </div>
     </div>
 
-    <div class="section-label">Nights Worked</div>
+    <!-- CLIENT SELECTOR -->
+    <div class="section-label">Client</div>
+    <div class="client-selector">
+      <div class="client-selector-header">
+        <span class="client-selector-label">Billing To</span>
+        <button class="btn-edit-client" onclick="openClientModal(getSelectedClientId())">Edit / Manage</button>
+      </div>
+      <div class="client-dropdown-row">
+        <select id="client-select" onchange="onClientChange()">
+          <option value="">— Select a client —</option>
+        </select>
+      </div>
+      <div class="client-info-preview" id="client-preview">
+        <div class="client-info-line" style="color:#444">No client selected</div>
+      </div>
+    </div>
+
+    <div class="section-label">Invoice Info</div>
+    <div class="card">
+      <div class="card-row"><div class="row-label">Invoice #</div><div class="row-value"><input id="f-num" placeholder="DCI-001" oninput="document.getElementById('chip-num').textContent=this.value"/></div></div>
+      <div class="card-row"><div class="row-label">Send Date</div><div class="row-value"><input type="date" id="f-date"/></div></div>
+      <div class="card-row"><div class="row-label">Due Date (Net 14)</div><div class="row-value"><input type="date" id="f-due"/></div></div>
+      <div class="card-row"><div class="row-label">Rate / Night</div><div class="row-value"><input type="number" id="f-rate" value="400" inputmode="decimal" oninput="rateChanged()"/></div></div>
+    </div>
+
+    <div class="nights-header">
+      <div class="nights-title">Nights Worked This Week</div>
+      <div class="nights-count" id="nights-count-badge">0 nights</div>
+    </div>
     <div id="nights-list"></div>
     <button class="add-night-btn" onclick="addNight()">＋ Add Night</button>
 
-    <div class="section-label">Total</div>
-    <div class="totals-card">
-      <div class="total-row"><span class="total-label">Nights</span><span class="total-val" id="t-nights">0</span></div>
-      <div class="total-row"><span class="total-label">Rate / Night</span><span class="total-val" id="t-rate">$400</span></div>
-      <div class="total-grand"><span class="total-grand-label">Total Due</span><span class="total-grand-val" id="t-total">$0.00</span></div>
+    <div class="total-card">
+      <div class="t-row"><span class="t-label">Nights this week</span><span class="t-val" id="t-nights">0</span></div>
+      <div class="t-row"><span class="t-label">Rate per night</span><span class="t-val" id="t-rate">$400</span></div>
+      <div class="t-grand"><span class="t-grand-label">Total Due</span><span class="t-grand-val" id="t-total">$0.00</span></div>
     </div>
 
-    <div class="section-label">Before You Send</div>
     <div class="wire-banner">
-      <div class="wire-banner-icon">📎</div>
-      <div class="wire-banner-text">
+      <div style="font-size:20px;flex-shrink:0">📎</div>
+      <div class="wire-text">
         <strong>Wire Request Form Required</strong>
-        Every invoice must include the completed wire request form. Attach both the PDF invoice and wire form before sending.
+        <span>Attach both the invoice PDF and the wire request form in every email.</span>
       </div>
     </div>
 
-    <div class="send-box">
-      <div class="send-box-header">
+    <div class="send-card">
+      <div class="send-header">
         <div style="font-size:20px">📤</div>
-        <div><div class="send-box-title">Send Your Invoice</div><div class="send-box-sub">Save PDF · open Gmail · attach both · send</div></div>
+        <div><div class="send-header-text">Send Your Weekly Invoice</div><div class="send-header-sub">One PDF · all nights · every Wednesday</div></div>
       </div>
       <div class="send-steps">
-        <div class="step"><div class="step-num">1</div><div class="step-text">Tap <strong>Preview &amp; Save PDF</strong> — opens in new tab, Share → Save to Files</div></div>
-        <div class="step"><div class="step-num">2</div><div class="step-text">Tap <strong>Open Gmail Draft</strong> — new tab, email pre-filled and ready</div></div>
-        <div class="step"><div class="step-num">3</div><div class="step-text">Attach <strong>invoice PDF + wire request form</strong> then send</div></div>
+        <div class="step"><div class="step-num">1</div><div class="step-text">Add <strong>every night you worked</strong> this week — each is one line on the invoice</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Tap <strong>Preview &amp; Save PDF</strong> → Share → Save to Files</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">Tap <strong>Open Gmail Draft</strong> → attach invoice + wire form → send</div></div>
       </div>
     </div>
 
-    <button class="btn-primary" onclick="openPDFPreview()">👁 &nbsp;Preview &amp; Save PDF</button>
+    <button class="btn-red" onclick="openPDFPreview()">👁 &nbsp;Preview &amp; Save PDF</button>
     <button class="btn-green" onclick="openGmailDraft()">✉️ &nbsp;Open Gmail Draft</button>
-    <button class="btn-secondary" onclick="newInvoice()">↺ &nbsp;Start New Invoice</button>
+    <button class="btn-ghost" onclick="newInvoice()">↺ &nbsp;Start Next Week's Invoice</button>
+  </div>
+
+  <!-- CLIENTS SCREEN -->
+  <div class="screen" id="screen-clients">
+    <div class="section-label" style="margin-top:0">Your Clients</div>
+    <div id="clients-list"></div>
+    <button class="btn-green" onclick="openClientModal(null)" style="margin-top:10px">＋ Add New Client</button>
   </div>
 
   <!-- SETTINGS SCREEN -->
   <div class="screen" id="screen-settings">
-    <div class="section-label">Your Info</div>
+    <div class="section-label" style="margin-top:0">Your Info</div>
     <div class="card">
       <div class="card-row"><div class="row-label">Legal Name</div><div class="row-value"><input id="s-name" placeholder="Devoid Caliber Inc."/></div></div>
       <div class="card-row"><div class="row-label">EIN</div><div class="row-value"><input id="s-ein" placeholder="XX-XXXXXXX" inputmode="numeric"/></div></div>
@@ -201,34 +260,69 @@ html,body{background:var(--bg);color:var(--text);font-family:-apple-system,Blink
       <div class="card-row"><div class="row-label">Email</div><div class="row-value"><input type="email" id="s-email" placeholder="you@domain.com" inputmode="email"/></div></div>
       <div class="card-row"><div class="row-label">Phone</div><div class="row-value"><input type="tel" id="s-phone" placeholder="(305) 000-0000" inputmode="tel"/></div></div>
     </div>
-    <button class="btn-primary" onclick="saveSettings()">Save My Info</button>
-
-    <div class="section-label" style="margin-top:32px">Company</div>
+    <button class="btn-red" onclick="saveSettings()">Save My Info</button>
+    <div class="section-label">Company</div>
     <div class="card">
       <div class="about-row"><span class="about-label">Entity</span><span class="about-val">Devoid Caliber Inc.</span></div>
       <div class="about-row"><span class="about-label">Type</span><span class="about-val">S-Corporation</span></div>
       <div class="about-row"><span class="about-label">Services</span><span class="about-val">Creative Media &amp; Technology</span></div>
       <div class="about-row"><span class="about-label">Default Rate</span><span class="about-val">$400 / night</span></div>
-      <div class="about-row"><span class="about-label">Payment Terms</span><span class="about-val">Net 14</span></div>
+      <div class="about-row"><span class="about-label">Terms</span><span class="about-val">Net 14 · Send Wednesdays</span></div>
       <div class="about-row"><span class="about-label">Late Fee</span><span class="about-val">1.5% / month</span></div>
     </div>
   </div>
 </div>
 
-<div class="toast" id="toast"></div>
+<!-- CLIENT MODAL -->
+<div class="modal-overlay" id="client-modal" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <div class="modal-title" id="modal-title">Add Client</div>
+    <div class="modal-sub" id="modal-sub">Fill in the client's billing info</div>
+    <div class="modal-field"><label>Client / Venue Name</label><input id="m-name" placeholder="E11even Miami"/></div>
+    <div class="modal-field"><label>Legal Entity Name</label><input id="m-entity" placeholder="GR OPCO LLC"/></div>
+    <div class="modal-field"><label>Address</label><input id="m-addr" placeholder="1112 North Miami Avenue"/></div>
+    <div class="modal-field"><label>City, State, ZIP</label><input id="m-city" placeholder="Miami, Florida 33136"/></div>
+    <div class="modal-field"><label>AP / Billing Email</label><input type="email" id="m-email1" placeholder="ap@venue.com" inputmode="email"/></div>
+    <div class="modal-field"><label>Accounting Email (CC)</label><input type="email" id="m-email2" placeholder="accounting@venue.com" inputmode="email"/></div>
+    <div class="modal-field"><label>Contact Name</label><input id="m-contact" placeholder="Nicole Moraes"/></div>
+    <div class="modal-field"><label>Default Rate ($/night)</label><input type="number" id="m-rate" placeholder="400" inputmode="decimal"/></div>
+    <div class="modal-actions">
+      <button class="btn-modal-save" onclick="saveClient()">Save Client</button>
+      <button class="btn-modal-delete" id="modal-delete-btn" onclick="deleteClient()" style="display:none">Delete Client</button>
+      <button class="btn-modal-cancel" onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>
 
+<div class="toast" id="toast"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
 let nightCount=0;
 let invNum=parseInt(localStorage.getItem('dci_num')||'1');
 let info=JSON.parse(localStorage.getItem('dci_info')||'{}');
+let clients=JSON.parse(localStorage.getItem('dci_clients')||'[]');
+let editingClientId=null;
+
+// Default E11even client if none exist
+if(!clients.length){
+  clients=[{
+    id:'c_e11',name:'E11even Miami',entity:'GR OPCO LLC',
+    addr:'1112 North Miami Avenue',city:'Miami, Florida 33136',
+    email1:'Ap@11usa.com',email2:'Accounting@11usa.com',
+    contact:'Nicole Moraes',rate:400
+  }];
+  localStorage.setItem('dci_clients',JSON.stringify(clients));
+}
 
 function showScreen(s){
   document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(x=>x.classList.remove('active'));
   document.getElementById('screen-'+s).classList.add('active');
-  document.querySelectorAll('.nav-tab')[s==='invoice'?0:1].classList.add('active');
+  const idx={'invoice':0,'clients':1,'settings':2}[s];
+  document.querySelectorAll('.nav-tab')[idx].classList.add('active');
+  if(s==='clients')renderClientsList();
 }
+
 function loadInfo(){
   ['name','ein','addr','email','phone'].forEach(k=>{if(info[k])document.getElementById('s-'+k).value=info[k];});
 }
@@ -238,132 +332,233 @@ function saveSettings(){
   showToast('Saved ✓');
 }
 function g(id){return document.getElementById(id).value;}
+
+// ── CLIENTS ──────────────────────────────────────────────────────────────────
+function populateClientDropdown(){
+  const sel=document.getElementById('client-select');
+  const current=sel.value;
+  sel.innerHTML='<option value="">— Select a client —</option>';
+  clients.forEach(c=>{
+    const o=document.createElement('option');
+    o.value=c.id;o.textContent=c.name;
+    if(c.id===current)o.selected=true;
+    sel.appendChild(o);
+  });
+  // Auto-select first client
+  if(!current&&clients.length){sel.value=clients[0].id;onClientChange();}
+}
+
+function getSelectedClientId(){return document.getElementById('client-select').value;}
+
+function getSelectedClient(){
+  const id=getSelectedClientId();
+  return clients.find(c=>c.id===id)||null;
+}
+
+function onClientChange(){
+  const c=getSelectedClient();
+  const prev=document.getElementById('client-preview');
+  if(!c){prev.innerHTML='<div class="client-info-line" style="color:#444">No client selected</div>';return;}
+  prev.innerHTML=`
+    <div class="client-info-line"><strong>${c.entity||c.name}</strong></div>
+    <div class="client-info-line">${c.addr||''} ${c.city?'· '+c.city:''}</div>
+    <div class="client-info-line">${c.email1||''}${c.email2?' · '+c.email2:''}</div>
+    ${c.contact?`<div class="client-info-line">Contact: <strong>${c.contact}</strong></div>`:''}
+  `;
+  // Apply client rate if different
+  if(c.rate)document.getElementById('f-rate').value=c.rate;
+  rateChanged();
+}
+
+function renderClientsList(){
+  const el=document.getElementById('clients-list');
+  if(!clients.length){el.innerHTML='<div style="color:var(--muted);font-size:14px;text-align:center;padding:30px 0">No clients yet</div>';return;}
+  el.innerHTML=clients.map(c=>`
+    <div class="card" style="cursor:pointer" onclick="openClientModal('${c.id}')">
+      <div class="card-row">
+        <div style="flex:1">
+          <div style="font-size:15px;font-weight:600;color:#fff">${c.name}</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:3px">${c.entity||''} ${c.email1?'· '+c.email1:''}</div>
+        </div>
+        <div style="color:var(--muted);font-size:18px">›</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openClientModal(id){
+  editingClientId=id;
+  const modal=document.getElementById('client-modal');
+  const deleteBtn=document.getElementById('modal-delete-btn');
+  if(id){
+    const c=clients.find(x=>x.id===id);
+    if(!c)return;
+    document.getElementById('modal-title').textContent='Edit Client';
+    document.getElementById('modal-sub').textContent='Update billing info for '+c.name;
+    document.getElementById('m-name').value=c.name||'';
+    document.getElementById('m-entity').value=c.entity||'';
+    document.getElementById('m-addr').value=c.addr||'';
+    document.getElementById('m-city').value=c.city||'';
+    document.getElementById('m-email1').value=c.email1||'';
+    document.getElementById('m-email2').value=c.email2||'';
+    document.getElementById('m-contact').value=c.contact||'';
+    document.getElementById('m-rate').value=c.rate||'';
+    deleteBtn.style.display=id==='c_e11'?'none':'block';
+  } else {
+    document.getElementById('modal-title').textContent='Add New Client';
+    document.getElementById('modal-sub').textContent='Enter their billing details';
+    ['m-name','m-entity','m-addr','m-city','m-email1','m-email2','m-contact','m-rate'].forEach(x=>document.getElementById(x).value='');
+    deleteBtn.style.display='none';
+  }
+  modal.classList.add('open');
+}
+
+function saveClient(){
+  const name=document.getElementById('m-name').value.trim();
+  if(!name){showToast('Client name required');return;}
+  const data={
+    id:editingClientId||'c_'+Date.now(),
+    name,
+    entity:document.getElementById('m-entity').value.trim(),
+    addr:document.getElementById('m-addr').value.trim(),
+    city:document.getElementById('m-city').value.trim(),
+    email1:document.getElementById('m-email1').value.trim(),
+    email2:document.getElementById('m-email2').value.trim(),
+    contact:document.getElementById('m-contact').value.trim(),
+    rate:parseFloat(document.getElementById('m-rate').value)||400,
+  };
+  if(editingClientId){
+    const idx=clients.findIndex(c=>c.id===editingClientId);
+    if(idx>-1)clients[idx]=data;
+  } else {
+    clients.push(data);
+  }
+  localStorage.setItem('dci_clients',JSON.stringify(clients));
+  populateClientDropdown();
+  renderClientsList();
+  closeModal();
+  showToast(editingClientId?'Client updated ✓':'Client added ✓');
+  // Re-select the saved client
+  document.getElementById('client-select').value=data.id;
+  onClientChange();
+}
+
+function deleteClient(){
+  if(!editingClientId||editingClientId==='c_e11')return;
+  if(!confirm('Delete this client?'))return;
+  clients=clients.filter(c=>c.id!==editingClientId);
+  localStorage.setItem('dci_clients',JSON.stringify(clients));
+  populateClientDropdown();renderClientsList();closeModal();showToast('Client deleted');
+}
+
+function closeModal(){document.getElementById('client-modal').classList.remove('open');}
+function closeModalOutside(e){if(e.target===document.getElementById('client-modal'))closeModal();}
+
+// ── INVOICE ───────────────────────────────────────────────────────────────────
 function initForm(){
   const t=new Date();
   document.getElementById('f-date').value=t.toISOString().split('T')[0];
   const d=new Date(t);d.setDate(d.getDate()+14);
   document.getElementById('f-due').value=d.toISOString().split('T')[0];
-  document.getElementById('f-num').value='DCI-'+String(invNum).padStart(3,'0');
-  document.getElementById('f-client').value='E11even Miami';
+  const num='DCI-'+String(invNum).padStart(3,'0');
+  document.getElementById('f-num').value=num;
+  document.getElementById('chip-num').textContent=num;
   calcTotals();
 }
+
 function addNight(){
   nightCount++;
   const id='n'+Date.now();
+  const rate=parseFloat(g('f-rate'))||400;
   const el=document.createElement('div');
   el.className='night-item';el.id=id;
   el.innerHTML=`
     <div class="night-header">
       <div class="night-num">${nightCount}</div>
-      <div class="night-dates">
-        <div class="date-row">
-          <span class="date-label">Start</span>
-          <input type="date" class="nd-start" onchange="calcTotals()"/>
-        </div>
-      </div>
-      <div class="night-amt" id="${id}a">$400</div>
+      <div class="night-date-wrap"><input type="date" class="nd-start" onchange="calcTotals()"/></div>
+      <div class="night-amt" id="${id}a">$${rate.toFixed(0)}</div>
       <button class="night-delete" onclick="removeNight('${id}')">×</button>
     </div>
     <div class="midnight-row">
-      <span class="midnight-label"><span>🌙</span> Spans midnight (2 dates)</span>
-      <label class="toggle">
-        <input type="checkbox" class="midnight-toggle" onchange="toggleMidnight(this,'${id}')"/>
-        <span class="toggle-slider"></span>
-      </label>
+      <span class="midnight-label">🌙 Spans midnight (2 dates)</span>
+      <label class="toggle"><input type="checkbox" class="midnight-toggle" onchange="toggleMidnight(this,'${id}')"/><span class="toggle-slider"></span></label>
     </div>
     <div class="end-date-row" id="${id}-end">
-      <span class="date-label" style="font-size:12px;color:var(--muted);min-width:36px">End</span>
+      <span class="end-date-label">End date</span>
       <input type="date" class="nd-end"/>
     </div>
     <div class="night-note"><input class="nn" placeholder="Event note (optional)…"/></div>`;
   document.getElementById('nights-list').appendChild(el);
   calcTotals();
 }
+
 function toggleMidnight(cb,id){
-  const endRow=document.getElementById(id+'-end');
+  const row=document.getElementById(id+'-end');
   if(cb.checked){
-    endRow.classList.add('visible');
+    row.classList.add('visible');
     const s=document.getElementById(id).querySelector('.nd-start');
-    if(s.value){
-      const next=new Date(s.value+'T12:00:00');next.setDate(next.getDate()+1);
-      document.getElementById(id).querySelector('.nd-end').value=next.toISOString().split('T')[0];
-    }
-  } else {
-    endRow.classList.remove('visible');
-    document.getElementById(id).querySelector('.nd-end').value='';
-  }
+    if(s.value){const n=new Date(s.value+'T12:00:00');n.setDate(n.getDate()+1);document.getElementById(id).querySelector('.nd-end').value=n.toISOString().split('T')[0];}
+  } else {row.classList.remove('visible');document.getElementById(id).querySelector('.nd-end').value='';}
 }
+
 function removeNight(id){
   document.getElementById(id).remove();
   let n=1;document.querySelectorAll('.night-num').forEach(e=>e.textContent=n++);nightCount=n-1;
   calcTotals();
 }
+
 function rateChanged(){
-  const rate=parseFloat(g('f-rate'))||0;
+  const rate=parseFloat(g('f-rate'))||400;
   document.querySelectorAll('.night-item').forEach(item=>{
-    item.querySelector('[id$="a"]').textContent='$'+rate.toFixed(0);
+    const a=item.querySelector('[id$="a"]');if(a)a.textContent='$'+rate.toFixed(0);
   });
   calcTotals();
 }
+
 function calcTotals(){
   const rate=parseFloat(g('f-rate'))||400;
-  const nights=document.querySelectorAll('.night-item').length;
-  const total=rate*nights;
+  const items=document.querySelectorAll('.night-item');
+  const nights=items.length,total=rate*nights;
   document.getElementById('t-nights').textContent=nights;
   document.getElementById('t-rate').textContent='$'+rate.toLocaleString();
   document.getElementById('t-total').textContent='$'+total.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+  document.getElementById('chip-nights').textContent=nights;
+  document.getElementById('chip-total').textContent='$'+total.toLocaleString();
+  document.getElementById('nights-count-badge').textContent=nights+' night'+(nights!==1?'s':'');
+  const dates=[];
+  items.forEach(item=>{const s=item.querySelector('.nd-start').value,e=item.querySelector('.nd-end').value;if(s)dates.push(s);if(e)dates.push(e);});
+  if(dates.length){dates.sort();const f=fmtDate(dates[0]),l=fmtDate(dates[dates.length-1]);document.getElementById('week-range').textContent=f===l?f:f+' – '+l;}
+  else document.getElementById('week-range').textContent='Add your nights below';
 }
+
 function newInvoice(){
-  if(!confirm('Clear and start a new invoice?'))return;
+  if(!confirm('Start next week\'s invoice? Current nights will be cleared.'))return;
   document.getElementById('nights-list').innerHTML='';nightCount=0;
   invNum++;localStorage.setItem('dci_num',String(invNum));
   initForm();addNight();
 }
-function showToast(msg){
-  const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2400);
-}
-function fmtDate(str){
-  if(!str)return'—';
-  const[y,m,d]=str.split('-');
-  return['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][parseInt(m)-1]+' '+parseInt(d)+', '+y;
-}
-function fmtShort(str){
-  if(!str)return'—';
-  const[y,m,d]=str.split('-');return m+'/'+d+'/'+y;
-}
+
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400);}
+function fmtDate(str){if(!str)return'—';const[y,m,d]=str.split('-');return['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][parseInt(m)-1]+' '+parseInt(d)+', '+y;}
+function fmtShort(str){if(!str)return'—';const[y,m,d]=str.split('-');return m+'/'+d+'/'+y;}
 function fmtMoney(n){return'$'+n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}
-function nightDateStr(item){
-  const start=item.querySelector('.nd-start').value;
-  const isMid=item.querySelector('.midnight-toggle').checked;
-  const end=item.querySelector('.nd-end').value;
-  if(isMid&&end)return fmtDate(start)+' – '+fmtDate(end);
-  return start?fmtDate(start):'—';
-}
-function nightDateShort(item){
-  const start=item.querySelector('.nd-start').value;
-  const isMid=item.querySelector('.midnight-toggle').checked;
-  const end=item.querySelector('.nd-end').value;
-  if(isMid&&end)return fmtShort(start)+' - '+fmtShort(end);
-  return start?fmtShort(start):'—';
-}
+function nightDateStr(item){const s=item.querySelector('.nd-start').value,mid=item.querySelector('.midnight-toggle').checked,e=item.querySelector('.nd-end').value;if(mid&&e)return fmtDate(s)+' – '+fmtDate(e);return s?fmtDate(s):'—';}
+function nightDateShort(item){const s=item.querySelector('.nd-start').value,mid=item.querySelector('.midnight-toggle').checked,e=item.querySelector('.nd-end').value;if(mid&&e)return fmtShort(s)+' - '+fmtShort(e);return s?fmtShort(s):'—';}
 
 function buildPDFDoc(){
   const items=document.querySelectorAll('.night-item');
+  const client=getSelectedClient();
   const{jsPDF}=window.jspdf;
   const doc=new jsPDF({unit:'pt',format:'letter'});
   const W=612,ml=40,mr=W-40,cw=W-ml*2;
   const rate=parseFloat(g('f-rate'))||400;
-  const num=g('f-num'),idate=g('f-date'),ddate=g('f-due'),role=g('f-role');
-  const client=g('f-client')||'E11even Miami';
+  const num=g('f-num'),idate=g('f-date'),ddate=g('f-due');
   const total=rate*items.length;
 
-  // HEADER — black with red left bar and green right accent
+  // HEADER
   doc.setFillColor(10,10,10);doc.rect(0,0,W,92,'F');
   doc.setFillColor(192,57,43);doc.rect(0,0,5,92,'F');
   doc.setFillColor(39,174,96);doc.rect(W-5,0,5,92,'F');
-
-  // Company name
   doc.setFont('helvetica','bold');doc.setFontSize(21);doc.setTextColor(255,255,255);
   doc.text('Devoid Caliber Inc.',ml+10,34);
   doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(160,160,160);
@@ -371,94 +566,75 @@ function buildPDFDoc(){
   const sub=[info.addr,info.email,info.phone].filter(Boolean).join('  ·  ');
   if(sub)doc.text(sub,ml+10,63);
   if(info.ein){doc.setFontSize(8);doc.setTextColor(120,120,120);doc.text('EIN: '+info.ein,ml+10,76);}
-
-  // INVOICE label
   doc.setFont('helvetica','bold');doc.setFontSize(24);doc.setTextColor(192,57,43);
   doc.text('INVOICE',mr-5,36,{align:'right'});
   doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(160,160,160);
   doc.text(num,mr-5,52,{align:'right'});
 
-  // BILL TO + DETAILS
+  // BILL TO
   let y=110;
-  doc.setFillColor(248,248,248);doc.roundedRect(ml,y,cw*0.48,82,3,3,'F');
+  const billName=client?(client.entity||client.name):'—';
+  const billLines=[client?client.name:'',client?client.addr:'',client?client.city:'',[client&&client.email1,client&&client.email2].filter(Boolean).join(' · ')].filter(Boolean);
+  const billH=Math.max(82,billLines.length*14+28);
+  doc.setFillColor(248,248,248);doc.roundedRect(ml,y,cw*0.48,billH,3,3,'F');
   doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(130,30,20);
   doc.text('BILL TO',ml+12,y+15);
+  doc.setFont('helvetica','bold');doc.setFontSize(11);doc.setTextColor(15,15,15);
+  doc.text(billName,ml+12,y+31);
   doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(70,70,70);
-  if(client.toLowerCase().includes('e11')||client.toLowerCase().includes('gr opco')){
-    doc.setFont('helvetica','bold');doc.setFontSize(11);doc.setTextColor(15,15,15);
-    doc.text('GR OPCO LLC / E11even Miami',ml+12,y+31);
-    doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(70,70,70);
-    doc.text('1112 North Miami Avenue',ml+12,y+45);
-    doc.text('Miami, Florida 33136',ml+12,y+58);
-    doc.text('Ap@11usa.com · Accounting@11usa.com',ml+12,y+71);
-  } else {
-    doc.setFont('helvetica','bold');doc.setFontSize(11);doc.setTextColor(15,15,15);
-    doc.text(client,ml+12,y+31);
-  }
+  let by=y+45;
+  billLines.slice(1).forEach(l=>{if(l){doc.text(l,ml+12,by);by+=13;}});
 
   const rx=ml+cw*0.52;
-  doc.setFillColor(248,248,248);doc.roundedRect(rx,y,cw*0.48,82,3,3,'F');
+  doc.setFillColor(248,248,248);doc.roundedRect(rx,y,cw*0.48,billH,3,3,'F');
   let dy2=y+15;
-  [['Invoice #',num],['Date',idate?fmtDate(idate):'—'],['Due (Net 14)',ddate?fmtDate(ddate):'—'],['Services',role]].forEach(([k,val])=>{
+  [['Invoice #',num],['Date',idate?fmtDate(idate):'—'],['Due (Net 14)',ddate?fmtDate(ddate):'—'],['Services','Graphics Operator / VJ']].forEach(([k,val])=>{
     doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(130,30,20);doc.text(k,rx+12,dy2);
     doc.setFont('helvetica','normal');doc.setFontSize(8.5);doc.setTextColor(20,20,20);
-    const shortened=val.length>22?val.substring(0,22)+'…':val;
-    doc.text(shortened,rx+cw*0.48-10,dy2,{align:'right'});
+    doc.text(val.length>22?val.substring(0,22)+'…':val,rx+cw*0.48-10,dy2,{align:'right'});
     dy2+=18;
   });
 
-  // TABLE HEADER
-  y+=94;
+  // TABLE
+  y+=billH+12;
   doc.setFillColor(10,10,10);doc.rect(ml,y,cw,24,'F');
   doc.setFont('helvetica','bold');doc.setFontSize(8.5);doc.setTextColor(192,57,43);
-  const c0=ml+10,c1=ml+180,c2=ml+320,c3=mr-10;
-  doc.text('Description',c0,y+16);
-  doc.text('Date(s) Worked',c1,y+16);
-  doc.text('Rate',c2,y+16,{align:'right'});
-  doc.text('Amount',c3,y+16,{align:'right'});
+  const c0=ml+10,c1=ml+200,c2=ml+330,c3=mr-10;
+  doc.text('Description',c0,y+16);doc.text('Date(s) Worked',c1,y+16);
+  doc.text('Rate',c2,y+16,{align:'right'});doc.text('Amount',c3,y+16,{align:'right'});
   y+=24;
 
-  // TABLE ROWS
   items.forEach((item,i)=>{
     const dateStr=nightDateStr(item);
-    const note=item.querySelector('.nn').value||role;
+    const note=item.querySelector('.nn').value||'Graphics Operator / VJ';
     const isMid=item.querySelector('.midnight-toggle').checked;
     doc.setFillColor(i%2===0?250:255,i%2===0?250:255,i%2===0?250:255);
     const rowH=isMid?28:22;
     doc.rect(ml,y,cw,rowH,'F');
     doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(25,25,25);
     doc.text(note.substring(0,28),c0,y+14);
-    if(isMid){
-      doc.setFontSize(8);doc.text(dateStr,c1,y+12);
-      doc.setFontSize(7.5);doc.setTextColor(39,130,60);doc.text('spans midnight',c1,y+21);
-    } else {
-      doc.text(dateStr,c1,y+14);
-    }
+    if(isMid){doc.setFontSize(8);doc.text(dateStr,c1,y+12);doc.setFontSize(7.5);doc.setTextColor(39,130,60);doc.text('spans midnight',c1,y+21);}
+    else{doc.setFontSize(9);doc.setTextColor(25,25,25);doc.text(dateStr,c1,y+14);}
     doc.setTextColor(25,25,25);doc.setFontSize(9);
-    doc.text(fmtMoney(rate),c2,y+14,{align:'right'});
-    doc.text(fmtMoney(rate),c3,y+14,{align:'right'});
+    doc.text(fmtMoney(rate),c2,y+14,{align:'right'});doc.text(fmtMoney(rate),c3,y+14,{align:'right'});
     doc.setDrawColor(230,230,230);doc.setLineWidth(0.3);doc.line(ml,y+rowH,mr,y+rowH);
     y+=rowH;
   });
 
-  // TOTALS
   y+=14;
   doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(100,100,100);
   doc.text('SUBTOTAL',mr-160,y);doc.text(fmtMoney(total),c3,y,{align:'right'});y+=13;
   doc.setFontSize(8);doc.setTextColor(150,150,150);
-  doc.text(`${items.length} night${items.length!==1?'s':''} × ${fmtMoney(rate)} flat rate  ·  No applicable tax (FL service exemption)`,ml,y);y+=22;
+  doc.text(`${items.length} night${items.length!==1?'s':''} x ${fmtMoney(rate)} flat rate  -  No applicable tax (FL service exemption)`,ml,y);y+=22;
 
-  // BALANCE DUE BAR
+  // BALANCE DUE
   doc.setFillColor(10,10,10);doc.rect(ml,y,cw,38,'F');
-  doc.setFillColor(192,57,43);doc.rect(ml,y,4,38,'F');
-  doc.setFillColor(39,174,96);doc.rect(mr-4,y,4,38,'F');
-  doc.setFont('helvetica','bold');doc.setFontSize(12);doc.setTextColor(255,255,255);
-  doc.text('BALANCE DUE',ml+14,y+24);
-  doc.setFont('helvetica','bold');doc.setFontSize(15);doc.setTextColor(39,174,96);
-  doc.text(fmtMoney(total),c3,y+24,{align:'right'});
+  doc.setFillColor(192,57,43);doc.rect(ml,y,4,38,'F');doc.setFillColor(39,174,96);doc.rect(mr-4,y,4,38,'F');
+  doc.setFont('helvetica','bold');doc.setFontSize(12);doc.setTextColor(255,255,255);doc.text('BALANCE DUE',ml+14,y+24);
+  doc.setFont('helvetica','bold');doc.setFontSize(15);doc.setTextColor(39,174,96);doc.text(fmtMoney(total),c3,y+24,{align:'right'});
   y+=50;
 
-  // TERMS BOX — with payment methods folded in
+  // TERMS
   doc.setFillColor(250,250,250);doc.roundedRect(ml,y,cw,78,3,3,'F');
   doc.setDrawColor(200,200,200);doc.setLineWidth(0.5);doc.roundedRect(ml,y,cw,78,3,3,'S');
   doc.setFillColor(192,57,43);doc.rect(ml,y,3,78,'F');
@@ -469,12 +645,12 @@ function buildPDFDoc(){
   doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(130,30,20);
   doc.text('ACCEPTED PAYMENTS',ml+12,y+40);
   doc.setFont('helvetica','normal');doc.setFontSize(8.5);doc.setTextColor(50,50,50);
-  doc.text('Bank Wire  ·  Zelle  ·  Apple Pay',ml+12,y+52);
+  doc.text('Bank Wire  -  Zelle  -  Apple Pay',ml+12,y+52);
   doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(130,30,20);
   doc.text('REMIT TO',ml+12,y+65);
-  doc.setFont('helvetica','normal');doc.setTextColor(30,30,30);doc.setFontSize(8.5);
-  doc.text('Ap@11usa.com  ·  Accounting@11usa.com',ml+12,y+76);
-  y+=10;
+  doc.setFont('helvetica','normal');doc.setFontSize(8.5);doc.setTextColor(30,30,30);
+  const remit=client?[client.email1,client.email2].filter(Boolean).join('  -  '):'—';
+  doc.text(remit,ml+12,y+76);
 
   // FOOTER
   const ph=doc.internal.pageSize.getHeight();
@@ -484,81 +660,60 @@ function buildPDFDoc(){
   doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(7.5);
   doc.text('Devoid Caliber Inc.',ml,ph-11);
   doc.setFont('helvetica','normal');
-  doc.text(`${info.ein?'EIN: '+info.ein+' · ':''}Legally binding commercial document.`,mr,ph-11,{align:'right'});
+  doc.text(`${info.ein?'EIN: '+info.ein+' - ':''}Legally binding commercial document.`,mr,ph-11,{align:'right'});
 
   return{doc,num};
 }
 
 function openPDFPreview(){
   const items=document.querySelectorAll('.night-item');
-  if(!items.length){showToast('Add at least one night');return;}
-  if(!info.name){showToast('Add your info in My Info first');return;}
+  if(!items.length){showToast('Add at least one night first');return;}
+  if(!info.name){showToast('Fill in your info in Me tab first');return;}
+  if(!getSelectedClient()){showToast('Select a client first');return;}
   const{doc,num}=buildPDFDoc();
-  const blob=doc.output('blob');
-  const url=URL.createObjectURL(blob);
+  const blob=doc.output('blob');const url=URL.createObjectURL(blob);
   const w=window.open('','_blank');
   if(w){
-    w.document.write(`<!DOCTYPE html><html>
-<head><meta name="viewport" content="width=device-width,initial-scale=1"/><title>${num}</title>
+    w.document.write(`<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"/><title>${num}</title>
 <style>*{margin:0;padding:0;box-sizing:border-box}body{background:#0a0a0a;font-family:-apple-system,sans-serif}
-.bar{background:#141414;border-bottom:1px solid #222;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0}
-.bar-left{display:flex;flex-direction:column}
-.bar-title{font-size:15px;font-weight:700;color:#fff}
-.bar-sub{font-size:11px;color:#777;margin-top:2px}
+.bar{background:#141414;border-bottom:1px solid #222;padding:14px 20px;position:sticky;top:0}
+.bar-title{font-size:15px;font-weight:700;color:#fff}.bar-sub{font-size:11px;color:#777;margin-top:2px}
 .hint{background:#140808;border:1px solid #922b21;border-radius:10px;padding:12px 16px;margin:16px;font-size:13px;color:#c0392b;line-height:1.6}
-.hint strong{color:#fff}
-embed{width:100%;height:calc(100vh - 155px);border:none}
-</style></head>
-<body>
-<div class="bar">
-  <div class="bar-left"><div class="bar-title">${num}</div><div class="bar-sub">Devoid Caliber Inc. · Invoice</div></div>
-</div>
-<div class="hint">📱 <strong>To save on iPhone:</strong> Tap the Share button (↑) → <strong>Save to Files</strong>. Then attach from Files in Gmail.</div>
+.hint strong{color:#fff}embed{width:100%;height:calc(100vh - 150px);border:none}
+</style></head><body>
+<div class="bar"><div class="bar-title">${num} — Devoid Caliber Inc.</div><div class="bar-sub">Invoice Preview</div></div>
+<div class="hint">iPhone: Tap Share (up arrow) then Save to Files. Then attach from Files in Gmail.</div>
 <embed src="${url}" type="application/pdf"/>
-</body></html>`);
-    w.document.close();
-  } else {
-    doc.save(`${num}_Invoice.pdf`);showToast('PDF downloading…');
-  }
+</body></html>`);w.document.close();
+  } else {doc.save(`${num}_DevoidCaliber.pdf`);showToast('PDF downloading...');}
   invNum++;localStorage.setItem('dci_num',String(invNum));
 }
 
 function openGmailDraft(){
   const items=document.querySelectorAll('.night-item');
   if(!items.length){showToast('Add at least one night first');return;}
-  if(!info.name){showToast('Add your info in My Info first');return;}
+  if(!info.name){showToast('Fill in your info in Me tab first');return;}
+  const client=getSelectedClient();
+  if(!client){showToast('Select a client first');return;}
   const num=g('f-num')||'DCI-001';
   const name=info.name||'Devoid Caliber Inc.';
-  const role=g('f-role');
   const rate=parseFloat(g('f-rate'))||400;
   const total=rate*items.length;
   const dateStrings=[];
   items.forEach(item=>dateStrings.push(nightDateShort(item)));
   const dateRange=dateStrings.join(', ');
-  const client=g('f-client')||'E11even Miami';
-  const to=client.toLowerCase().includes('e11')||client.toLowerCase().includes('goldrush')
-    ?'Ap@11usa.com,Accounting@11usa.com':'';
-  const subject=`Invoice ${num} — Devoid Caliber Inc. — ${role} — ${client}`;
-  const body=`Hi,
-
-Please find the attached invoice for services rendered at ${client} on ${dateRange}.
-Also attached is the wire request form with my information.
-If there's anything missing please let me know.
-
-Invoice #: ${num}
-Services: ${role}
-
-Invoice Total: ${fmtMoney(total)}
-
-Thank you,
-${name}${info.phone?'\n'+info.phone:''}${info.email?'\n'+info.email:''}`;
-
-  const url='https://mail.google.com/mail/?view=cm&fs=1&to='+encodeURIComponent(to)+'&su='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
-  window.open(url,'_blank');
+  const to=[client.email1,client.email2].filter(Boolean).join(',');
+  const subject=`Invoice ${num} — Devoid Caliber Inc. — Graphics Operator / VJ — ${client.name}`;
+  const body=`Hi${client.contact?' '+client.contact.split(' ')[0]:''},\n\nPlease find the attached invoice for services rendered at ${client.name} on ${dateRange}.\nAlso attached is the wire request form with my information.\nIf there's anything missing please let me know.\n\nInvoice #: ${num}\nServices: Graphics Operator / VJ\n\nInvoice Total: ${fmtMoney(total)}\n\nThank you,\n${name}${info.phone?'\n'+info.phone:''}${info.email?'\n'+info.email:''}`;
+  window.open('https://mail.google.com/mail/?view=cm&fs=1&to='+encodeURIComponent(to)+'&su='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body),'_blank');
   showToast('Gmail opened ✓');
 }
 
-loadInfo();initForm();addNight();
+// INIT
+loadInfo();
+populateClientDropdown();
+initForm();
+addNight();
 </script>
 </body>
 </html>
