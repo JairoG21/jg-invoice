@@ -599,24 +599,25 @@ function buildPDFDoc(){
   y+=billH+12;
   doc.setFillColor(10,10,10);doc.rect(ml,y,cw,24,'F');
   doc.setFont('helvetica','bold');doc.setFontSize(8.5);doc.setTextColor(192,57,43);
-  const c0=ml+10,c1=ml+200,c2=ml+330,c3=mr-10;
+  // 3-column layout: Description | Date(s) Worked | Amount (Rate column removed — flat rate)
+  const c0=ml+10,c1=ml+220,c3=mr-10;
   doc.text('Description',c0,y+16);doc.text('Date(s) Worked',c1,y+16);
-  doc.text('Rate',c2,y+16,{align:'right'});doc.text('Amount',c3,y+16,{align:'right'});
+  doc.text('Amount',c3,y+16,{align:'right'});
   y+=24;
 
   items.forEach((item,i)=>{
     const dateStr=nightDateStr(item);
     const note=item.querySelector('.nn').value||'Graphics Operator / VJ';
     const isMid=item.querySelector('.midnight-toggle').checked;
-    doc.setFillColor(i%2===0?250:255,i%2===0?250:255,i%2===0?250:255);
-    const rowH=isMid?28:22;
+    doc.setFillColor(i%2===0?250:250,i%2===0?250:250,i%2===0?250:250);
+    const rowH=isMid?30:22;
     doc.rect(ml,y,cw,rowH,'F');
     doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(25,25,25);
-    doc.text(note.substring(0,28),c0,y+14);
-    if(isMid){doc.setFontSize(8);doc.text(dateStr,c1,y+12);doc.setFontSize(7.5);doc.setTextColor(39,130,60);doc.text('spans midnight',c1,y+21);}
+    doc.text(note.substring(0,32),c0,y+14);
+    if(isMid){doc.setFontSize(8.5);doc.text(dateStr,c1,y+12);doc.setFontSize(7.5);doc.setTextColor(39,130,60);doc.text('spans midnight',c1,y+22);}
     else{doc.setFontSize(9);doc.setTextColor(25,25,25);doc.text(dateStr,c1,y+14);}
     doc.setTextColor(25,25,25);doc.setFontSize(9);
-    doc.text(fmtMoney(rate),c2,y+14,{align:'right'});doc.text(fmtMoney(rate),c3,y+14,{align:'right'});
+    doc.text(fmtMoney(rate),c3,y+14,{align:'right'});
     doc.setDrawColor(230,230,230);doc.setLineWidth(0.3);doc.line(ml,y+rowH,mr,y+rowH);
     y+=rowH;
   });
