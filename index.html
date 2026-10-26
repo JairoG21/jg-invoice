@@ -803,150 +803,276 @@ function generatePDF(){
   const invDate = document.getElementById('inv-date').value;
   const dueDate = document.getElementById('inv-due').value;
   const services = document.getElementById('inv-services').value;
-  const memo = document.getElementById('inv-memo').value;
   const total = lineItems.reduce((s,i)=>s+i.qty*i.rate,0);
-  const fmtDate = d => { if(!d) return ''; const p=d.split('-'); return p[1]+'/'+p[2]+'/'+p[0]; };
+  const fmtDate = d => { if(!d) return '—'; const p=d.split('-'); return p[1]+'/'+p[2]+'/'+p[0]; };
+  const terms = document.getElementById('inv-terms').value;
 
   const doc = new jsPDF({orientation:'portrait',unit:'pt',format:'letter'});
-  const pw=612, ph=792, ml=40, mr=572, cw=mr-ml;
-  let y=0;
+  const pw=612, ph=792, ml=48, mr=564, cw=mr-ml;
 
-  // HEADER BAR
-  doc.setFillColor(10,10,10); doc.rect(0,0,pw,80,'F');
-  doc.setFillColor(192,57,43); doc.rect(0,78,pw,2,'F');
-  doc.setFillColor(39,174,96); doc.rect(0,80,pw,2,'F');
-  doc.setFont('helvetica','bold'); doc.setFontSize(20); doc.setTextColor(255,255,255);
-  doc.text(me.company||'Devoid Caliber Inc.',ml,36);
-  doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(136,136,136);
-  doc.text(me.tagline||'Creative Media & Technology',ml,50);
-  const contactLine = [me.street,me.city].filter(Boolean).join('  ·  ');
-  doc.text(contactLine,ml,62);
-  if(me.ein) doc.text('EIN: '+me.ein,ml,74);
-  doc.setFont('helvetica','bold'); doc.setFontSize(28); doc.setTextColor(192,57,43);
-  doc.text('INVOICE',mr,38,{align:'right'});
-  doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor(200,200,200);
-  doc.text(num,mr,54,{align:'right'});
-  y=100;
+  // ── PALETTE ──────────────────────────────────────────────
+  const RED   = [192,57,43];
+  const BLACK = [18,18,18];
+  const DARK  = [40,40,40];
+  const MID   = [100,100,100];
+  const LIGHT = [160,160,160];
+  const PALE  = [210,210,210];
+  const RULE  = [230,230,230];
+  const BG_ROW_ALT = [248,248,250];
+  const WHITE = [255,255,255];
 
-  // BILL TO + INVOICE META
-  const boxH=110;
-  doc.setFillColor(20,20,20); doc.rect(ml,y,cw/2-8,boxH,'F');
-  doc.setFillColor(20,20,20); doc.rect(ml+cw/2+8,y,cw/2-8,boxH,'F');
-  doc.setFont('helvetica','bold'); doc.setFontSize(7.5); doc.setTextColor(192,57,43);
-  doc.text('BILL TO',ml+10,y+16);
-  doc.setFont('helvetica','bold'); doc.setFontSize(11); doc.setTextColor(240,240,240);
-  doc.text(client?.name||'—',ml+10,y+32);
-  doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(160,160,160);
-  let by=y+45;
-  if(client?.entity){ doc.text(client.entity,ml+10,by); by+=13; }
-  if(client?.addr){ doc.text(client.addr,ml+10,by); by+=13; }
-  if(client?.city){ doc.text(client.city,ml+10,by); by+=13; }
-  if(client?.email1){ doc.setTextColor(120,120,120); doc.text(client.email1,ml+10,by); }
+  // ── HELPERS ──────────────────────────────────────────────
+  const setRed   = () => doc.setTextColor(...RED);
+  const setBlack = () => doc.setTextColor(...BLACK);
+  const setMid   = () => doc.setTextColor(...MID);
+  const setLight = () => doc.setTextColor(...LIGHT);
+  const rule = (x1,yy,x2,col=RULE) => {
+    doc.setDrawColor(...col); doc.setLineWidth(0.5); doc.line(x1,yy,x2,yy);
+  };
 
-  const rx=ml+cw/2+18;
-  const metaRows=[
-    ['Invoice #',num],
-    ['Date',fmtDate(invDate)],
-    ['Due (Net '+document.getElementById('inv-terms').value+')',fmtDate(dueDate)],
-    ['Services',services||'—'],
-  ];
-  let ry=y+16;
-  metaRows.forEach(([k,v])=>{
-    doc.setFont('helvetica','bold'); doc.setFontSize(7.5); doc.setTextColor(192,57,43);
-    doc.text(k,rx,ry);
-    doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(220,220,220);
-    doc.text(String(v),mr,ry,{align:'right'});
-    ry+=20;
-  });
-  y+=boxH+16;
+  // White page background (jsPDF default is white but be explicit)
+  doc.setFillColor(...WHITE); doc.rect(0,0,pw,ph,'F');
 
-  // TABLE HEADER
-  doc.setFillColor(10,10,10); doc.rect(ml,y,cw,26,'F');
-  doc.setFont('helvetica','bold'); doc.setFontSize(8.5); doc.setTextColor(192,57,43);
-  const tc0=ml+10, tc1=ml+210, tc2=ml+310, tc3=mr-10;
-  doc.text('Description',tc0,y+17);
-  doc.text('Date',tc1,y+17);
-  doc.text('Qty',tc2,y+17,{align:'right'});
-  doc.text('Amount',tc3,y+17,{align:'right'});
-  y+=26;
+  let y = 0;
 
-  // TABLE ROWS
-  lineItems.forEach((item,i)=>{
-    const rowH=24;
-    doc.setFillColor(i%2===0?250:255,i%2===0?250:255,i%2===0?250:255);
-    doc.rect(ml,y,cw,rowH,'F');
-    doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(20,20,20);
-    doc.text(item.desc.substring(0,36),tc0,y+15);
-    doc.setTextColor(100,100,100);
-    doc.text(fmtDate(item.date),tc1,y+15);
-    const qtyLabel = item.type==='hourly'?item.qty+' hrs':item.type==='nightly'?item.qty+' night'+(item.qty!==1?'s':''):item.qty+'×';
-    doc.text(qtyLabel,tc2,y+15,{align:'right'});
-    doc.setTextColor(20,20,20); doc.setFont('helvetica','bold');
-    doc.text(fmtMoney(item.qty*item.rate),tc3,y+15,{align:'right'});
-    doc.setDrawColor(220,220,220); doc.setLineWidth(0.3);
-    doc.line(ml,y+rowH,mr,y+rowH);
-    y+=rowH;
-  });
+  // ════════════════════════════════════════════════════════
+  // HEADER  — generous top margin, company name as hero
+  // ════════════════════════════════════════════════════════
+  y = 52;
 
-  // SUBTOTAL
-  y+=12;
-  doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(120,120,120);
-  doc.text('SUBTOTAL',mr-160,y,{align:'right'});
-  doc.setFont('helvetica','bold'); doc.setTextColor(20,20,20);
-  doc.text(fmtMoney(total),tc3,y,{align:'right'});
-  y+=11;
-  doc.setFont('helvetica','normal'); doc.setFontSize(7.5); doc.setTextColor(160,160,160);
-  doc.text('No applicable tax — FL service exemption',ml,y);
-  y+=22;
+  // Company name — large, strong
+  doc.setFont('helvetica','bold'); doc.setFontSize(22); setBlack();
+  doc.text(me.company||'Devoid Caliber Inc.', ml, y);
 
-  // BALANCE DUE
-  doc.setFillColor(10,10,10); doc.rect(ml,y,cw,42,'F');
-  doc.setFillColor(192,57,43); doc.rect(ml,y,4,42,'F');
-  doc.setFillColor(39,174,96); doc.rect(mr-4,y,4,42,'F');
-  doc.setFont('helvetica','bold'); doc.setFontSize(12); doc.setTextColor(255,255,255);
-  doc.text('BALANCE DUE',ml+14,y+26);
-  doc.setFontSize(17); doc.setTextColor(39,174,96);
-  doc.text(fmtMoney(total),tc3,y+26,{align:'right'});
-  y+=56;
+  // "INVOICE" label — small caps style, right-aligned, muted
+  doc.setFont('helvetica','bold'); doc.setFontSize(9.5); doc.setTextColor(...LIGHT);
+  doc.text('INVOICE', mr, y, {align:'right'});
 
-  // MEMO
-  if(memo){
-    doc.setFillColor(248,248,248); doc.rect(ml,y,cw,30,'F');
-    doc.setDrawColor(220,220,220); doc.setLineWidth(0.4); doc.rect(ml,y,cw,30,'S');
-    doc.setFont('helvetica','italic'); doc.setFontSize(8.5); doc.setTextColor(80,80,80);
-    doc.text(memo.substring(0,90),ml+10,y+18);
-    y+=42;
+  y += 16;
+
+  // Tagline
+  doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(...MID);
+  doc.text(me.tagline||'Creative Media & Technology', ml, y);
+
+  // Invoice number — prominent, right-aligned
+  doc.setFont('helvetica','bold'); doc.setFontSize(15); setRed();
+  doc.text(num, mr, y, {align:'right'});
+
+  y += 14;
+
+  // Contact line
+  const contactParts = [me.email, me.phone, me.city].filter(Boolean);
+  doc.setFont('helvetica','normal'); doc.setFontSize(8); setLight();
+  doc.text(contactParts.join('   ·   '), ml, y);
+  if(me.ein){
+    doc.text('EIN: '+me.ein, mr, y, {align:'right'});
   }
 
-  // TERMS
-  doc.setFillColor(250,250,250); doc.roundedRect(ml,y,cw,82,3,3,'F');
-  doc.setDrawColor(210,210,210); doc.setLineWidth(0.4); doc.roundedRect(ml,y,cw,82,3,3,'S');
-  doc.setFillColor(192,57,43); doc.rect(ml,y,3,82,'F');
-  const tl=ml+12;
-  doc.setFont('helvetica','bold'); doc.setFontSize(8); doc.setTextColor(130,30,20);
-  doc.text('PAYMENT TERMS',tl,y+14);
-  doc.setFont('helvetica','normal'); doc.setFontSize(8.5); doc.setTextColor(50,50,50);
-  doc.text('Net '+document.getElementById('inv-terms').value+' days from invoice date. Late payments subject to 1.5% per month.',tl,y+26);
-  doc.setFont('helvetica','bold'); doc.setFontSize(8); doc.setTextColor(130,30,20);
-  doc.text('ACCEPTED PAYMENTS',tl,y+42);
-  doc.setFont('helvetica','normal'); doc.setFontSize(8.5); doc.setTextColor(50,50,50);
-  doc.text('Bank Wire  -  Zelle  -  Apple Pay',tl,y+54);
-  doc.setFont('helvetica','bold'); doc.setFontSize(8); doc.setTextColor(130,30,20);
-  doc.text('REMIT TO',tl,y+68);
-  doc.setFont('helvetica','normal'); doc.setFontSize(8.5); doc.setTextColor(40,40,40);
-  const remit=[me.email].filter(Boolean).join('  ·  ');
-  doc.text(remit||'—',tl,y+79);
+  y += 22;
 
-  // FOOTER
-  doc.setFillColor(10,10,10); doc.rect(0,ph-30,pw,30,'F');
-  doc.setFillColor(192,57,43); doc.rect(0,ph-32,pw/2,2,'F');
-  doc.setFillColor(39,174,96); doc.rect(pw/2,ph-32,pw/2,2,'F');
-  doc.setFont('helvetica','bold'); doc.setFontSize(8); doc.setTextColor(136,136,136);
-  doc.text(me.company||'Devoid Caliber Inc.',ml,ph-13);
-  doc.setFont('helvetica','normal');
-  doc.text('EIN: '+(me.ein||'88-0747880')+'   ·   Legally binding commercial document.',mr,ph-13,{align:'right'});
+  // Full-width red rule — the one accent
+  doc.setFillColor(...RED); doc.rect(ml, y, cw, 1.5, 'F');
+  y += 18;
 
-  // SAVE
+  // ════════════════════════════════════════════════════════
+  // BILL TO + META  — two-column, clean, lots of air
+  // ════════════════════════════════════════════════════════
+  const colMid = ml + cw * 0.5;
+  const metaLabelX = colMid + 4;
+  const metaValX   = mr;
+  const sectionTop = y;
+
+  // LEFT — BILL TO
+  doc.setFont('helvetica','bold'); doc.setFontSize(7); doc.setTextColor(...PALE);
+  doc.text('BILL TO', ml, y);
+  y += 14;
+
+  doc.setFont('helvetica','bold'); doc.setFontSize(12); setBlack();
+  doc.text(client?.name||'—', ml, y);
+  y += 14;
+
+  doc.setFont('helvetica','normal'); doc.setFontSize(9); setMid();
+  const billLines = [client?.entity, client?.addr, client?.city, client?.email1].filter(Boolean);
+  billLines.forEach(line => { doc.text(line, ml, y); y += 13; });
+
+  // RIGHT — META (rendered relative to sectionTop so it aligns with BILL TO header)
+  const metaRows = [
+    ['DATE',        fmtDate(invDate)],
+    ['DUE DATE',    fmtDate(dueDate)],
+    ['TERMS',       terms==='0'?'Due on receipt':'Net '+terms],
+    ['SERVICES',    services||'—'],
+  ];
+  let mry = sectionTop;
+  metaRows.forEach(([k,v]) => {
+    doc.setFont('helvetica','bold'); doc.setFontSize(7); doc.setTextColor(...PALE);
+    doc.text(k, metaLabelX, mry);
+    mry += 14;
+    doc.setFont('helvetica','normal'); doc.setFontSize(9.5); setBlack();
+    // wrap services if long
+    const vLines = doc.splitTextToSize(String(v), metaValX - metaLabelX - 4);
+    doc.text(vLines[0], metaValX, mry, {align:'right'});
+    mry += 16;
+  });
+
+  // Advance y past whichever column is taller
+  y = Math.max(y, mry) + 20;
+
+  // ════════════════════════════════════════════════════════
+  // TABLE
+  // ════════════════════════════════════════════════════════
+  const tc0 = ml;                   // desc start
+  const tc1 = ml + cw * 0.52;      // date start
+  const tc2 = ml + cw * 0.72;      // qty (right-align)
+  const tc3 = mr;                   // amount (right-align)
+  const ROW_H = 30;
+  const ROW_H_MULTI = 42;
+
+  // Table header row
+  doc.setFillColor(18,18,18); doc.rect(ml, y, cw, 24, 'F');
+  doc.setFont('helvetica','bold'); doc.setFontSize(8); doc.setTextColor(...PALE);
+  doc.text('DESCRIPTION',  tc0+8,  y+16);
+  doc.text('DATE',         tc1+6,  y+16);
+  doc.text('QTY',          tc2-6,  y+16, {align:'right'});
+  doc.text('AMOUNT',       tc3-8,  y+16, {align:'right'});
+  y += 24;
+
+  // Rows
+  lineItems.forEach((item, i) => {
+    const descMaxW = tc1 - tc0 - 16;
+    const descLines = doc.splitTextToSize(item.desc||'—', descMaxW);
+    const isMulti = descLines.length > 1;
+    const rowH = isMulti ? ROW_H_MULTI : ROW_H;
+
+    // Alternating row bg
+    if(i % 2 === 0){
+      doc.setFillColor(...BG_ROW_ALT); doc.rect(ml, y, cw, rowH, 'F');
+    } else {
+      doc.setFillColor(...WHITE); doc.rect(ml, y, cw, rowH, 'F');
+    }
+
+    const baseY = isMulti ? y + 13 : y + rowH/2 + 4;
+
+    // Description
+    doc.setFont('helvetica','normal'); doc.setFontSize(9.5); setBlack();
+    doc.text(descLines[0], tc0+8, baseY);
+    if(isMulti){
+      doc.setFontSize(8.5); setMid();
+      doc.text(descLines[1], tc0+8, baseY+13);
+      doc.setFontSize(9.5); setBlack();
+    }
+
+    const midY = isMulti ? y + rowH/2 + 4 : baseY;
+
+    // Date
+    doc.setFont('helvetica','normal'); doc.setFontSize(9); setMid();
+    doc.text(fmtDate(item.date), tc1+6, midY);
+
+    // Qty label
+    const qtyLabel = item.type==='hourly'
+      ? item.qty+' hrs'
+      : item.type==='nightly'
+      ? item.qty+(item.qty!==1?' nights':' night')
+      : item.qty+'×';
+    doc.setFont('helvetica','normal'); doc.setFontSize(9); setMid();
+    doc.text(qtyLabel, tc2-6, midY, {align:'right'});
+
+    // Amount — bold, dark
+    doc.setFont('helvetica','bold'); doc.setFontSize(10); setBlack();
+    doc.text(fmtMoney(item.qty*item.rate), tc3-8, midY, {align:'right'});
+
+    // Row bottom rule
+    rule(ml, y+rowH, mr, [220,220,222]);
+    y += rowH;
+  });
+
+  y += 16;
+
+  // ════════════════════════════════════════════════════════
+  // SUBTOTAL + TAX NOTE
+  // ════════════════════════════════════════════════════════
+  doc.setFont('helvetica','normal'); doc.setFontSize(8.5); setLight();
+  doc.text('Subtotal', tc2-6, y, {align:'right'});
+  doc.setFont('helvetica','normal'); doc.setFontSize(9.5); setBlack();
+  doc.text(fmtMoney(total), tc3-8, y, {align:'right'});
+  y += 13;
+
+  doc.setFont('helvetica','normal'); doc.setFontSize(7.5); setLight();
+  doc.text('No applicable tax — Florida service exemption', ml, y);
+  y += 20;
+
+  // Thin rule before balance due
+  rule(ml, y, mr, PALE); y += 16;
+
+  // ════════════════════════════════════════════════════════
+  // BALANCE DUE  — the page hero
+  // ════════════════════════════════════════════════════════
+  doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor(...LIGHT);
+  doc.text('BALANCE DUE', ml, y);
+
+  doc.setFont('helvetica','bold'); doc.setFontSize(26); setRed();
+  doc.text(fmtMoney(total), mr, y+2, {align:'right'});
+  y += 28;
+
+  // Thick red rule under balance due
+  doc.setFillColor(...RED); doc.rect(ml, y, cw, 1.5, 'F');
+  y += 22;
+
+  // ════════════════════════════════════════════════════════
+  // MEMO (if any)
+  // ════════════════════════════════════════════════════════
+  const memoText = document.getElementById('inv-memo').value.trim();
+  if(memoText){
+    const memoLines = doc.splitTextToSize(memoText, cw - 20);
+    const memoH = Math.max(32, memoLines.length * 13 + 18);
+    doc.setFillColor(250,249,248); doc.rect(ml, y, cw, memoH, 'F');
+    doc.setDrawColor(...PALE); doc.setLineWidth(0.4); doc.rect(ml, y, cw, memoH, 'S');
+    doc.setFillColor(...RED); doc.rect(ml, y, 2, memoH, 'F');
+    doc.setFont('helvetica','bold'); doc.setFontSize(7); doc.setTextColor(...PALE);
+    doc.text('NOTE', ml+10, y+11);
+    doc.setFont('helvetica','normal'); doc.setFontSize(8.5); setMid();
+    memoLines.forEach((line,li) => { doc.text(line, ml+10, y+22+(li*13)); });
+    y += memoH + 16;
+  }
+
+  // ════════════════════════════════════════════════════════
+  // TERMS + PAYMENT INFO  — two columns, clean
+  // ════════════════════════════════════════════════════════
+  const termsCols = [ml, ml + cw/2 + 8];
+  const termsTop = y;
+
+  // Col 1 — terms
+  doc.setFont('helvetica','bold'); doc.setFontSize(7); doc.setTextColor(...PALE);
+  doc.text('PAYMENT TERMS', termsCols[0], y);
+  y += 13;
+  doc.setFont('helvetica','normal'); doc.setFontSize(8.5); setMid();
+  const termsStr = (terms==='0'?'Due on receipt':'Net '+terms+' days from invoice date')+'. Late payments subject to 1.5% monthly.';
+  const termsLines = doc.splitTextToSize(termsStr, cw/2 - 12);
+  termsLines.forEach(l => { doc.text(l, termsCols[0], y); y += 12; });
+
+  // Col 2 — payment methods + remit
+  let py = termsTop;
+  doc.setFont('helvetica','bold'); doc.setFontSize(7); doc.setTextColor(...PALE);
+  doc.text('ACCEPTED PAYMENTS', termsCols[1], py); py += 13;
+  doc.setFont('helvetica','normal'); doc.setFontSize(8.5); setMid();
+  doc.text('Bank Wire  ·  Zelle  ·  Apple Pay', termsCols[1], py); py += 18;
+
+  doc.setFont('helvetica','bold'); doc.setFontSize(7); doc.setTextColor(...PALE);
+  doc.text('REMIT TO', termsCols[1], py); py += 13;
+  doc.setFont('helvetica','normal'); doc.setFontSize(8.5); setMid();
+  doc.text(me.email||'—', termsCols[1], py);
+
+  // ════════════════════════════════════════════════════════
+  // FOOTER  — minimal, bottom of page
+  // ════════════════════════════════════════════════════════
+  doc.setFillColor(...RED); doc.rect(ml, ph-36, cw, 0.75, 'F');
+  doc.setFont('helvetica','normal'); doc.setFontSize(7.5); setLight();
+  doc.text(me.company||'Devoid Caliber Inc.', ml, ph-20);
+  doc.setTextColor(...PALE);
+  doc.text('EIN: '+(me.ein||'—')+'   ·   Legally binding commercial document', mr, ph-20, {align:'right'});
+  doc.setFont('helvetica','normal'); doc.setFontSize(7); doc.setTextColor(...RULE);
+  doc.text(num, pw/2, ph-20, {align:'center'});
+
+  // ── SAVE & OPEN ──────────────────────────────────────────
   saveToHistory(true);
   bumpNum();
   updateCounter();
